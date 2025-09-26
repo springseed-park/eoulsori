@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>풍물놀이패 40주년 기념 행사</title>
+  <meta name="description" content="풍물놀이패 동아리 40주년 기념 행사 안내 및 참가 신청 페이지" />
+  <style>
+    :root{
+      --bg:#0f1020;
+      --text:#e9ecf1;
+      --muted:#b8bed1;
+      --brand:#ff3b7b;
+      --brand-2:#ffc43b;
+      --accent:#3bd1ff;
+      --card:#14152a;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,"Noto Sans KR",sans-serif;
+      color:var(--text);
+      background:url('pungmul-hero.jpg') center/cover no-repeat fixed, linear-gradient(180deg,#0e0f1e,#11142b);
+    }
+    a{color:var(--accent);text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1100px,92%);margin:0 auto}
+    header{position:sticky;top:0;z-index:50;background:rgba(15,16,32,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+    .nav .brand{display:flex;gap:10px;align-items:center}
+    .brand img{width:40px;height:40px;object-fit:cover;border-radius:50%}
+    .nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
+    .nav a{padding:8px 12px;border-radius:10px;color:var(--text)}
+    .nav a:hover{background:rgba(255,255,255,.08)}
+    .btn{padding:10px 16px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#111;font-weight:800}
+    .btn.secondary{background:#22274a;color:#fff;border:1px solid rgba(255,255,255,.12)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}
+    section{padding:72px 20px;background:rgba(0,0,0,.68);margin:40px auto;width:min(1100px,92%);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    h1,h2,h3{margin:0 0 12px}
+    .note{font-size:13px;color:var(--muted)}
+    /* Hero */
+    .hero{min-height:100svh;display:flex;align-items:center}
+    .hero .logo{width:min(160px,30vw);border-radius:50%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .countdown{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+    .cd-box{min-width:68px;text-align:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px}
+    .cd-box b{font-size:22px;display:block}
+    .cd-box span{font-size:12px;color:var(--muted)}
+    /* Info */
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .info-item{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+    .program table{width:100%;border-collapse:collapse}
+    .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
+    .program th{background:rgba(255,255,255,.06)}
+    .map-card iframe{width:100%;height:340px;border:0;border-radius:12px}
+    /* Fees */
+    .fee{padding:18px;display:grid;gap:14px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+    .fee .options{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{padding:10px 14px;border-radius:999px;background:#21264a;border:1px solid rgba(255,255,255,.15);cursor:pointer;display:flex;align-items:center;gap:8px}
+    .fee .summary{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    /* History & gallery */
+    .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
+    .timeline ul{list-style:none;margin:0;padding:0}
+    .timeline li{padding:12px 0;border-left:3px solid var(--brand);padding-left:12px;margin-left:6px}
+    .marquee{display:flex;gap:16px;overflow:hidden}
+    .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
+    .marquee img{width:320px;height:210px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
+    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#1b1f42;color:var(--text)}
+    textarea{min-height:120px}
+    footer{padding:26px 0;color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.08);background:rgba(14,17,48,.85)}
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+    .modal[open]{display:flex}
+    .dialog{background:#222;padding:20px;border-radius:12px;max-width:720px;width:96%}
+    .dialog header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+    .dialog h3{margin:0;color:var(--brand-2)}
+    .account{font-size:1.3em;font-weight:900;color:var(--accent);margin:8px 0}
+    .bank{font-weight:800;color:var(--brand)}
+    .qr-wrap{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-top:12px}
+    .qr-box{background:#111;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(255,255,255,.12)}
+    /* Responsive */
+    @media (max-width:900px){
+      .info-grid,.contact-grid{grid-template-columns:1fr}
+      form .row{grid-template-columns:1fr}
+      .qr-wrap{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><img src="logo.png" alt="동아리 로고"/><span>풍물놀이패 40주년</span></div>
+      <ul>
+        <li><a href="#home">홈</a></li>
+        <li><a href="#about">행사 안내</a></li>
+        <li><a href="#history">연혁 · 갤러리</a></li>
+        <li><a href="#contact">문의</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- 1) Hero -->
+  <section id="home" class="hero">
+    <div class="container">
+      <div style="display:grid;gap:14px;justify-items:start">
+        <img class="logo" src="logo.png" alt="동아리 로고"/>
+        <div class="badge" style="color:var(--brand-2);font-weight:800">40th Anniversary</div>
+        <h1 style="font-size:clamp(28px,4.5vw,54px);margin:0">함께 울리고, 다시 모이다</h1>
+        <p style="color:var(--muted);margin:0 0 10px">2026년 5월 30일(토) · 대학아트홀 — 풍물놀이패 40주년 기념 한마당</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn primary" id="openReg">참가신청하기</button>
+          <button class="btn secondary" id="openSponsor">후원하기</button>
+          <a class="btn ghost" href="#about">행사안내 보기</a>
+        </div>
+
+        <div class="countdown" aria-live="polite">
+          <div class="cd-box"><b id="dday">0</b><span>D-DAY</span></div>
+          <div class="cd-box"><b id="days">0</b><span>일</span></div>
+          <div class="cd-box"><b id="hours">0</b><span>시간</span></div>
+          <div class="cd-box"><b id="mins">0</b><span>분</span></div>
+          <div class="cd-box"><b id="secs">0</b><span>초</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2) Info -->
+  <section id="about">
+    <div class="container">
+      <h2>행사 안내</h2>
+      <p class="note">일정 · 장소 · 주최 및 찾아오시는 길</p>
+      <div class="info-grid">
+        <div class="info-item">
+          <ul style="list-style:none;padding:0;margin:0">
+            <li><b>일시</b> : 2026년 5월 30일(토)</li>
+            <li><b>장소</b> : 대학아트홀</li>
+            <li><b>주최</b> : 풍물놀이패 회원일동</li>
+          </ul>
+          <div class="program" style="margin-top:10px">
+            <h3>식순(안)</h3>
+            <table aria-label="행사 식순">
+              <thead><tr><th style="width:120px">시간</th><th>내용</th></tr></thead>
+              <tbody>
+                <tr><td>14:00</td><td>오프닝·집결</td></tr>
+                <tr><td>14:10</td><td>내빈 소개 및 축사</td></tr>
+                <tr><td>14:30</td><td>공연 1부 (진쇠·삼채)</td></tr>
+                <tr><td>15:10</td><td>휴식</td></tr>
+                <tr><td>15:25</td><td>공연 2부 (사물놀이 합주)</td></tr>
+                <tr><td>16:10</td><td>동문 인터뷰 영상 상영</td></tr>
+                <tr><td>16:30</td><td>단체 기념촬영</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="info-item map-card">
+          <iframe title="네이버 지도 - 대학아트홀" src="https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EC%95%84%ED%8A%B8%ED%99%80" loading="lazy"></iframe>
+          <div class="note" style="padding-top:8px">* 네이버 지도에서 "퍼가기" 코드로 교체하면 정확한 약도가 표시됩니다.</div>
+        </div>
+      </div>
+
+      <div id="fees" class="fee" style="margin-top:18px">
+        <h3 style="margin:0">참가비 · 후원 선택</h3>
+        <div class="options" role="group" aria-label="요금 선택">
+          <label class="chip"><input type="radio" name="fee" value="0" checked>무료(동문)</label>
+          <label class="chip"><input type="radio" name="fee" value="10000">일반 1만원</label>
+          <label class="chip"><input type="radio" name="fee" value="20000">후원 2만원</label>
+          <label class="chip"><input type="radio" name="fee" value="50000">후원 5만원</label>
+          <label class="chip"><input type="radio" name="fee" value="custom">직접 입력</label>
+          <input id="customFee" type="number" min="0" placeholder="직접 입력 (원)" style="display:none;width:180px" />
+        </div>
+        <div class="summary">
+          <div>선택 금액: <b id="feeSelected">0원</b></div>
+          <button class="btn secondary" id="btnPay">결제하기(연동 필요)</button>
+          <span class="note">* 실제 결제 연동은 추후 PG/계좌이체/QR 등으로 연결하세요.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) History & Gallery -->
+  <section id="history">
+    <div class="container">
+      <h2>동아리 40주년 연혁</h2>
+      <p class="note">주요 발자취</p>
+      <div class="timeline">
+        <ul>
+          <li><b>1986</b> 창립</li>
+          <li><b>1995</b> 지역 문화축제 첫 대상 수상</li>
+          <li><b>2003</b> 해외 교류 공연 시작</li>
+          <li><b>2010</b> 정기공연 20회 달성</li>
+          <li><b>2016</b> 창립 30주년 기념 굿판</li>
+          <li><b>2020</b> 온라인 비대면 공연 시도</li>
+          <li><b>2026</b> 창립 40주년 기념 한마당</li>
+        </ul>
+      </div>
+
+      <h3 style="margin:24px 0 10px">갤러리</h3>
+      <div class="marquee">
+        <div class="track">
+          <img src="gallery1.jpg" alt="공연 사진 1" />
+          <img src="gallery2.jpg" alt="공연 사진 2" />
+          <img src="gallery3.jpg" alt="공연 사진 3" />
+          <img src="gallery4.jpg" alt="공연 사진 4" />
+          <img src="gallery5.jpg" alt="공연 사진 5" />
+          <img src="gallery1.jpg" alt="공연 사진 1" />
+          <img src="gallery2.jpg" alt="공연 사진 2" />
+          <img src="gallery3.jpg" alt="공연 사진 3" />
+          <img src="gallery4.jpg" alt="공연 사진 4" />
+          <img src="gallery5.jpg" alt="공연 사진 5" />
+        </div>
+      </div>
+      <p class="note" style="margin-top:8px">* 이미지 파일(gallery1~5.jpg)을 교체하세요. 자동 슬라이드(무한 루프)입니다.</p>
+    </div>
+  </section>
+
+  <!-- 4) Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2>문의하기</h2>
+      <p class="note">담당자 연락처 및 메일 전송</p>
+
+      <div class="contact-grid">
+        <div style="padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)">
+          <h3 style="margin-top:0">담당자</h3>
+          <p>
+            이메일: <a id="contactEmail" href="mailto:pungmul40@example.com">pungmul40@example.com</a><br/>
+            연락처: <a href="tel:01012345678">010-1234-5678</a><br/>
+            인스타그램: <a href="https://instagram.com/pungmul_official" target="_blank" rel="noopener">@pungmul_official</a>
+          </p>
+          <p class="note">* 실제 연락처로 교체하세요.</p>
+        </div>
+
+        <div style="padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)">
+          <h3 style="margin-top:0">메일 보내기</h3>
+          <form id="mailForm">
+            <div class="row">
+              <div>
+                <label>이름</label>
+                <input type="text" name="name" required />
+              </div>
+              <div>
+                <label>이메일</label>
+                <input type="email" name="email" required />
+              </div>
+            </div>
+            <div class="row" style="margin-top:10px">
+              <div>
+                <label>연락처</label>
+                <input type="tel" name="phone" />
+              </div>
+              <div>
+                <label>문의 유형</label>
+                <select name="type">
+                  <option value="general">일반 문의</option>
+                  <option value="volunteer">자원봉사</option>
+                  <option value="sponsor">후원 문의</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:10px">
+              <label>내용</label>
+              <textarea name="message" required></textarea>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="btn primary" type="submit">메일 전송</button>
+              <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© 2026 풍물놀이패 동아리 — 40주년 기념행사</div>
+  </footer>
+
+  <!-- 참가신청 모달 -->
+  <div id="regModal" class="modal" role="dialog" aria-modal="true">
+    <div class="dialog">
+      <header>
+        <h3>참가신청</h3>
+        <button class="btn ghost" id="closeReg" aria-label="닫기">닫기</button>
+      </header>
+      <div class="body">
+        <form id="regForm">
+          <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <label>이름</label>
+              <input type="text" name="name" required />
+            </div>
+            <div>
+              <label>연락처</label>
+              <input type="tel" name="phone" placeholder="010-0000-0000" required />
+            </div>
+          </div>
+          <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+            <div>
+              <label>이메일</label>
+              <input type="email" name="email" required />
+            </div>
+            <div>
+              <label>인원수</label>
+              <input type="number" name="count" min="1" value="1" required />
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <label>한마디(선택)</label>
+            <textarea name="msg" placeholder="동아리에게 전하고 싶은 말"></textarea>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button class="btn primary" type="submit">신청 완료</button>
+            <!-- 관리자만 볼 수 있도록 숨김 처리 + 비밀번호 보호 -->
+            <button class="btn secondary hidden" type="button" id="exportCsv">CSV 다운로드</button>
+            <span class="note">* 신청 내용은 주최측에만 저장됩니다.</span>
+          </div>
+        </form>
+
+        <div style="padding:12px;margin-top:14px;background:rgba(20,21,42,.7);border-radius:12px;border:1px solid rgba(255,255,255,.08)">
+          <b>누적 현황</b>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px">
+            <div class="cd-box"><b id="aggPeople">0명</b><span>총 신청자 수</span></div>
+            <div class="cd-box"><b id="aggCount">0명</b><span>총 인원 합계</span></div>
+            <div class="cd-box"><b id="aggUpdated">-</b><span>마지막 업데이트</span></div>
+          </div>
+          <div style="margin-top:8px">
+            <details>
+              <summary>최근 신청 5건 보기</summary>
+              <ul id="recentList" style="margin:8px 0 0 18px"></ul>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 후원 계좌 모달 + QR -->
+  <div id="sponsorModal" class="modal" role="dialog" aria-modal="true">
+    <div class="dialog">
+      <header>
+        <h3>후원 계좌 안내</h3>
+        <button class="btn ghost" id="closeSponsor" aria-label="닫기">닫기</button>
+      </header>
+      <div class="body">
+        <div style="display:grid;gap:8px">
+          <div class="account" id="accountNumber">123456-78-901234</div>
+          <div class="bank" id="bankInfo">국민은행 · 예금주: 풍물놀이패</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn secondary" id="copyAccount">계좌번호 복사</button>
+            <button class="btn secondary" id="copyAll">전체 정보 복사</button>
+          </div>
+          <div class="qr-wrap">
+            <div class="qr-box">
+              <img id="qrImage" alt="QR 코드" width="220" height="220" />
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn primary" id="downloadQR">QR 이미지 다운로드</button>
+              <span class="note">* 은행 앱에서 QR 스캔 → ‘메모/이체’에 활용하세요.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Fixed bg override via ?bg= or #bg= =====
+    (function setFixedBodyBackground(){
+      try{
+        const search = new URLSearchParams(location.search);
+        const hashParams = new URLSearchParams(location.hash.startsWith('#') ? location.hash.substring(1) : '');
+        const src = search.get('bg') || hashParams.get('bg');
+        if(src){
+          const test = new Image();
+          test.onload = function(){
+            document.body.style.backgroundImage = "url('"+ src.replace(/'/g,"\\'") +"')";
+          };
+          test.src = src;
+        }
+      }catch(e){}
+    })();
+
+    // ===== Shortcuts =====
+    const $ = (s, root=document) => root.querySelector(s);
+    const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
+
+    // ===== Registration store =====
+    const REG_KEY = 'pungmul40_registrations_v1';
+    const loadRegs = () => JSON.parse(localStorage.getItem(REG_KEY) || '[]');
+    const saveRegs = (arr) => localStorage.setItem(REG_KEY, JSON.stringify(arr));
+
+    // ===== Registration modal =====
+    const regModal = $('#regModal');
+    $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
+    $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
+    regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
+
+    $('#regForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const entry = {
+        name: String(fd.get('name')||'').trim(),
+        phone: String(fd.get('phone')||'').trim(),
+        email: String(fd.get('email')||'').trim(),
+        count: Math.max(1, Number(fd.get('count'))||1),
+        msg: String(fd.get('msg')||'').trim(),
+        ts: new Date().toISOString()
+      };
+      const arr = loadRegs();
+      arr.unshift(entry);
+      saveRegs(arr);
+      e.target.reset();
+      updateAgg();
+      alert('신청이 저장되었습니다. 감사합니다!');
+    });
+
+    function updateAgg(){
+      const arr = loadRegs();
+      const totalPeople = arr.length;
+      const totalCount = arr.reduce((a,c)=>a+(c.count||1),0);
+      $('#aggPeople').textContent = totalPeople + '명';
+      $('#aggCount').textContent = totalCount + '명';
+      $('#aggUpdated').textContent = arr[0] ? new Date(arr[0].ts).toLocaleString() : '-';
+      const ul = $('#recentList'); ul.innerHTML = '';
+      arr.slice(0,5).forEach(x=>{
+        const li = document.createElement('li');
+        li.textContent = x.name + ' · ' + x.count + '명 · ' + new Date(x.ts).toLocaleString();
+        ul.appendChild(li);
+      });
+    }
+    updateAgg();
+
+    // ===== CSV export (hidden + password) =====
+    function generateCsvFromRegistrations(arr){
+      const head = ['이름','연락처','이메일','인원수','메시지','신청시각'];
+      const rows = arr.map(x => [
+        x.name, x.phone, x.email, x.count, x.msg, new Date(x.ts).toLocaleString()
+      ].map(v => '"' + String(v).replaceAll('"','""') + '"').join(','));
+      const csv = [head.join(','), ...rows].join('\n');
+      return csv;
+    }
+    const exportBtn = $('#exportCsv');
+    const ADMIN_PASS = 'pungmul40!';
+    document.addEventListener('keydown', (e)=>{
+      if(e.ctrlKey && e.shiftKey && (e.key==='D' || e.key==='d')){
+        if(exportBtn){ exportBtn.classList.remove('hidden'); setTimeout(()=>exportBtn.classList.add('hidden'), 15000); }
+      }
+    });
+    (function(){ const p=new URLSearchParams(location.hash.replace(/^#/,'')); if(p.get('admin')===ADMIN_PASS && exportBtn){ exportBtn.classList.remove('hidden'); } })();
+    if(exportBtn){
+      exportBtn.addEventListener('click', ()=>{
+        const input = prompt('관리자 비밀번호를 입력하세요');
+        if(input !== ADMIN_PASS){ alert('비밀번호가 올바르지 않습니다.'); return; }
+        const arr = loadRegs();
+        if(!arr.length) return alert('내보낼 데이터가 없습니다.');
+        const csv = generateCsvFromRegistrations(arr);
+        const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'pungmul40_registrations.csv'; a.click(); URL.revokeObjectURL(url);
+      });
+    }
+
+    // ===== D-day countdown (KST) =====
+    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime();
+    function tick(){
+      const now = Date.now();
+      let diff = Math.max(0, eventDate - now);
+      const d = Math.floor(diff / 86400000); diff -= d*86400000;
+      const h = Math.floor(diff / 3600000); diff -= h*3600000;
+      const m = Math.floor(diff / 60000); diff -= m*60000;
+      const s = Math.floor(diff / 1000);
+      $('#days').textContent = d; $('#hours').textContent = h; $('#mins').textContent = m; $('#secs').textContent = s;
+      $('#dday').textContent = d === 0 ? 0 : d;
+    }
+    tick(); setInterval(tick,1000);
+
+    // ===== Fee options =====
+    const feeRadios = $$('input[name="fee"]');
+    const feeSelected = $('#feeSelected');
+    const customFee = $('#customFee');
+    function syncFee(){
+      const v = (feeRadios.find(r=>r.checked)||{}).value || '0';
+      if(v==='custom'){ customFee.style.display='block'; feeSelected.textContent = Number(customFee.value||0).toLocaleString() + '원'; }
+      else { customFee.style.display='none'; feeSelected.textContent = Number(v).toLocaleString() + '원'; }
+    }
+    feeRadios.forEach(r=>r.addEventListener('change', syncFee));
+    if(customFee){ customFee.addEventListener('input', syncFee); }
+    if(feeSelected){ syncFee(); }
+    const btnPay = $('#btnPay'); if(btnPay){ btnPay.addEventListener('click', ()=> alert('결제 연동은 추후 PG/계좌이체/QR 등으로 연결하세요. 현재는 미구현 상태입니다.')); }
+
+    // ===== Contact mailto =====
+    const mailForm = $('#mailForm');
+    if(mailForm){
+      mailForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const to = $('#contactEmail').textContent.trim();
+        const subject = encodeURIComponent('[문의] ' + fd.get('name') + '님 (' + fd.get('type') + ')');
+        const body = encodeURIComponent('이름: ' + fd.get('name') + '\n이메일: ' + fd.get('email') + '\n연락처: ' + (fd.get('phone')||'') + '\n유형: ' + fd.get('type') + '\n\n내용:\n' + fd.get('message'));
+        window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+      });
+    }
+
+    // ===== Sponsor modal with QR =====
+    const sponsorModal = $('#sponsorModal');
+    $('#openSponsor').addEventListener('click', ()=> sponsorModal.setAttribute('open',''));
+    $('#closeSponsor').addEventListener('click', ()=> sponsorModal.removeAttribute('open'));
+    sponsorModal.addEventListener('click', (e)=>{ if(e.target.id==='sponsorModal') sponsorModal.removeAttribute('open'); });
+
+    const acctEl = $('#accountNumber');
+    const bankEl = $('#bankInfo');
+    const qrImg = $('#qrImage');
+
+    function refreshQR(){
+      const payload = acctEl.textContent.trim() + ' | ' + bankEl.textContent.trim();
+      const url = 'https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=' + encodeURIComponent(payload);
+      qrImg.src = url;
+      qrImg.alt = 'QR: ' + payload;
+    }
+    refreshQR();
+
+    $('#copyAccount').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(acctEl.textContent.trim()); alert('계좌번호가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
+    });
+    $('#copyAll').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(acctEl.textContent.trim() + ' / ' + bankEl.textContent.trim()); alert('전체 정보가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
+    });
+    $('#downloadQR').addEventListener('click', ()=>{
+      const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
+    });
+
+    // ===== Self tests (console) =====
+    (function runTests(){
+      try{
+        const csv = generateCsvFromRegistrations([{name:'홍 "길"동',phone:'010',email:'a@b.com',count:2,msg:'안녕',ts:new Date().toISOString()}]);
+        if(csv.split('\n').length < 2) throw new Error('CSV 줄바꿈 실패');
+        console.log('%c[TEST] CSV OK','color: #27c49a');
+      }catch(e){ console.error('[TEST] 실패', e); }
+    })();
+  </script>
+</body>
+</html>
