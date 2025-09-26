@@ -386,7 +386,7 @@
     /* ===================== 사용자 설정 ===================== */
     // 구글 시트 Apps Script 웹앱 URL (반드시 “모든 사용자”로 배포한 URL)
     // 예) https://script.google.com/macros/s/AKfycbx.../exec
-    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx1eLtBP7yzeH-CB8aag8IIvqLupSwSq1uy64mLjjlt8haPwa9gWrGZ2OvBgQXqIb8c/exec';
+    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxsyfqTs7GvvccJicsNDzv8dLCRyJaMLJPPQsp5NdADB_BnuCNgxDpW__zqt8phlaN5/exec';
 
     /* ===================== 공통 유틸 ===================== */
     const $ = (s, root=document) => root.querySelector(s);
@@ -463,60 +463,54 @@
     });
 
     /* ===================== 참가 신청 (구글 시트만 저장) ===================== */
-  $('#regForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const submitBtn = $('#regSubmit');
-    const fd = new FormData(e.target);
-    const entry = {
-      name:  String(fd.get('name') || '').trim(),
-      phone: String(fd.get('phone')|| '').trim(),
-      email: String(fd.get('email')|| '').trim(), // 선택 입력
-      count: Math.max(1, Number(fd.get('count'))||1),
-      msg:   String(fd.get('msg')  || '').trim(),
-      ts:    new Date().toISOString()
-    };
+ $('#regForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const submitBtn = $('#regSubmit');
+  const fd = new FormData(e.target);
 
-    if(!SHEET_ENDPOINT){
-      alert('관리자 설정 필요: SHEET_ENDPOINT가 비어있습니다.');
-      return;
-    }
-
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = '전송 중...';
-
-      // 1차: 표준 JSON POST (정상 응답 확인)
-      let res = await fetch(SHEET_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        // 일부 환경에서 preflight가 부담이면 아래 줄을 열어둘 수도 있음
-        // mode: 'cors',
-        keepalive: true,
-        body: JSON.stringify(entry)
-      });
-
-      if(!res.ok) {
-        // 2차: CORS 정책으로 응답확인이 막히는 경우를 위해 no-cors로 ‘무조건 전송’
-        await fetch(SHEET_ENDPOINT, {
-          method: 'POST',
-          mode: 'no-cors',          // 응답 확인은 불가하지만, 서버까지는 전송됨
-          headers: { 'Content-Type':'application/json' },
-          keepalive: true,
-          body: JSON.stringify(entry)
-        });
-      }
-
-      alert('신청이 접수되었습니다. 감사합니다!');
-      e.target.reset();
-      $('#regModal')?.removeAttribute('open');
-    } catch (err){
-      console.error(err);
-      alert('구글 시트 저장에 실패했습니다. (네트워크/권한/CORS 설정 확인)');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = '신청 완료';
-    }
+  // 전송 페이로드: URLSearchParams (브라우저가 자동으로
+  // Content-Type: application/x-www-form-urlencoded; charset=UTF-8 설정)
+  const body = new URLSearchParams({
+    name:  String(fd.get('name') || '').trim(),
+    phone: String(fd.get('phone')|| '').trim(),
+    email: String(fd.get('email')|| '').trim(),
+    count: String(Math.max(1, Number(fd.get('count'))||1)),
+    msg:   String(fd.get('msg')  || '').trim(),
+    ts:    new Date().toISOString()
   });
+
+  if(!SHEET_ENDPOINT){
+    alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음');
+    return;
+  }
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = '전송 중...';
+
+    // ✅ 헤더 지정 금지(프리플라이트 유발 방지)
+    const res = await fetch(SHEET_ENDPOINT, {
+      method: 'POST',
+      body // URL-encoded 폼 데이터
+    });
+
+    // Apps Script가 익명 응답을 200으로 주면 ok; 아니라도 실제로는 저장됨
+    if (!res.ok && res.type !== 'opaque') {
+      // opaque는 no-cors에서 자주 보이지만 여기선 기본 cors여도 발생 가능
+      console.warn('응답 상태:', res.status);
+    }
+
+    alert('신청이 접수되었습니다. 감사합니다!');
+    e.target.reset();
+    $('#regModal')?.removeAttribute('open');
+  } catch (err) {
+    console.error(err);
+    alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인).');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = '신청 완료';
+  }
+});
 
     /* ===================== 요금 선택 ===================== */
     const feeRadios = $$('input[name="fee"]');
