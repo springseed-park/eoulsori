@@ -60,10 +60,26 @@
     .hero h1{font-size:clamp(28px,4.5vw,54px)}
     .hero .lead{color:var(--muted);margin:0 0 10px}
     .cta{display:flex;gap:10px;flex-wrap:wrap}
-    .countdown{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-    .cd-box{min-width:68px;text-align:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px}
-    .cd-box b{font-size:22px;display:block}
-    .cd-box span{font-size:12px;color:var(--muted)}
+
+    /* D-Day: 단일 블럭 스타일 */
+    .countdown{
+      margin-top:20px;
+      padding:12px 18px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      display:inline-block;
+      font-weight:700;
+      font-size:20px;
+    }
+    .countdown .label{
+      display:block;
+      font-size:13px;
+      font-weight:600;
+      color:var(--brand-2);
+      margin-bottom:4px;
+      text-align:center
+    }
 
     /* Info */
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -72,12 +88,6 @@
     .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
     .program th{background:rgba(255,255,255,.06)}
     .map-card iframe{width:100%;height:340px;border:0;border-radius:12px}
-
-    /* Fees */
-    .fee{padding:18px;display:grid;gap:14px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
-    .fee .options{display:flex;flex-wrap:wrap;gap:10px}
-    .chip{padding:10px 14px;border-radius:999px;background:#21264a;border:1px solid rgba(255,255,255,.15);cursor:pointer;display:flex;align-items:center;gap:8px}
-    .fee .summary{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
     /* History & gallery */
     .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
@@ -144,12 +154,10 @@
           <a class="btn ghost" href="#about">행사안내 보기</a>
         </div>
 
+        <!-- ✅ D-Day: 한 블럭 + 콜론 구분 -->
         <div class="countdown" aria-live="polite">
-          <div class="cd-box"><b id="dday">0</b><span>D-DAY</span></div>
-          <div class="cd-box"><b id="days">0</b><span>일</span></div>
-          <div class="cd-box"><b id="hours">0</b><span>시간</span></div>
-          <div class="cd-box"><b id="mins">0</b><span>분</span></div>
-          <div class="cd-box"><b id="secs">0</b><span>초</span></div>
+          <span class="label">D-Day</span>
+          <span id="dday">0</span>일 : <span id="hours">00</span>시간 : <span id="mins">00</span>분 : <span id="secs">00</span>초
         </div>
       </div>
     </div>
@@ -189,22 +197,7 @@
         </div>
       </div>
 
-      <div id="fees" class="fee" style="margin-top:18px">
-        <h3 style="margin:0">참가비 · 후원 선택</h3>
-        <div class="options" role="group" aria-label="요금 선택">
-          <label class="chip"><input type="radio" name="fee" value="0" checked>무료(동문)</label>
-          <label class="chip"><input type="radio" name="fee" value="10000">일반 1만원</label>
-          <label class="chip"><input type="radio" name="fee" value="20000">후원 2만원</label>
-          <label class="chip"><input type="radio" name="fee" value="50000">후원 5만원</label>
-          <label class="chip"><input type="radio" name="fee" value="custom">직접 입력</label>
-          <input id="customFee" type="number" min="0" placeholder="직접 입력 (원)" style="display:none;width:180px" />
-        </div>
-        <div class="summary">
-          <div>선택 금액: <b id="feeSelected">0원</b></div>
-          <button class="btn secondary" id="btnPay">결제하기(연동 필요)</button>
-          <span class="note">* 실제 결제 연동은 추후 PG/계좌이체/QR 등으로 연결하세요.</span>
-        </div>
-      </div>
+      <!-- ❌ 참가비·후원 선택 섹션 삭제됨 -->
     </div>
   </section>
 
@@ -263,28 +256,26 @@
 
         <div style="padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)">
           <h3 style="margin-top:0">메일 보내기</h3>
-            <form id="mailForm">
-              <div class="row">
-                <div>
-                  <label>이름</label>
-                  <input type="text" name="name" required />
-                </div>
-                <div>
-                  <label>이메일</label>
-                  <input type="email" name="email" />
-                </div>
+          <form id="mailForm">
+            <div class="row">
+              <div>
+                <label>이름</label>
+                <input type="text" name="name" required />
               </div>
-            
-              <div style="margin-top:10px">
-                <label>내용</label>
-                <textarea name="message" required></textarea>
+              <div>
+                <label>이메일</label>
+                <input type="email" name="email" />
               </div>
-            
-              <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-                <button class="btn primary" type="submit">메일 전송</button>
-                <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
-              </div>
-            </form>
+            </div>
+            <div style="margin-top:10px">
+              <label>내용</label>
+              <textarea name="message" required></textarea>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="btn primary" type="submit">메일 전송</button>
+              <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -350,6 +341,9 @@
       </header>
       <div class="body">
         <div style="display:grid;gap:8px">
+          <!-- 금액 안내 문구 (요청사항) -->
+          <p>후원 1구좌: <b>50,000원</b> · 참가비: <b>50,000원</b></p>
+
           <div class="account" id="accountNumber">123456-78-901234</div>
           <div class="bank" id="bankInfo">국민은행 · 예금주: 풍물놀이패</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -372,15 +366,13 @@
 
   <script>
     /* ===================== 사용자 설정 ===================== */
-    // 구글 시트 Apps Script 웹앱 URL (반드시 "모든 사용자"로 배포한 URL)
-    // 예) https://script.google.com/macros/s/AKfycbx.../exec
     const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzAkTilyUWeapEOT6yO3Swe1qmZDyI8yRwpcW-mcZdmN9ODJChbPxSlSxvUIiNyuy4V/exec';
 
     /* ===================== 공통 유틸 ===================== */
     const $ = (s, root=document) => root.querySelector(s);
     const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 
-    // ✅ 과거 로컬 저장 잔여물 강제 청소 (혹시 남았을 경우 대비)
+    // ✅ 과거 로컬 저장 잔여물 강제 청소
     try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
 
     // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
@@ -397,21 +389,35 @@
       }catch(e){}
     })();
 
-    /* ===================== D-DAY ===================== */
-    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime();
-    function tick(){
-      const now = Date.now();
-      let diff = Math.max(0, eventDate - now);
-      const d = Math.floor(diff / 86400000); diff -= d*86400000;
-      const h = Math.floor(diff / 3600000); diff -= h*3600000;
-      const m = Math.floor(diff / 60000); diff -= m*60000;
-      const s = Math.floor(diff / 1000);
-      document.querySelector('#dday').textContent = d;
-      document.querySelector('#hours').textContent = h;
-      document.querySelector('#mins').textContent = m;
-      document.querySelector('#secs').textContent = s;
-    }
-    tick(); setInterval(tick,1000);
+    /* ===================== D-DAY (사파리 호환) ===================== */
+    (function(){
+      let eventMs = Date.parse('2026-05-30T00:00:00+09:00');
+      if (isNaN(eventMs)) {
+        eventMs = Date.parse('2026-05-29T15:00:00Z'); // 동일 시각(UTC)
+      }
+
+      const dEl = $('#dday');
+      const hEl = $('#hours');
+      const mEl = $('#mins');
+      const sEl = $('#secs');
+      if(!dEl || !hEl || !mEl || !sEl) return;
+
+      function tick(){
+        const now = Date.now();
+        let diff = Math.max(0, eventMs - now);
+        const d = Math.floor(diff / 86400000); diff -= d*86400000;
+        const h = Math.floor(diff / 3600000); diff -= h*3600000;
+        const m = Math.floor(diff / 60000); diff -= m*60000;
+        const s = Math.floor(diff / 1000);
+
+        dEl.textContent = d;
+        hEl.textContent = String(h).padStart(2,'0');
+        mEl.textContent = String(m).padStart(2,'0');
+        sEl.textContent = String(s).padStart(2,'0');
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
 
     /* ===================== 모달 ===================== */
     const regModal = $('#regModal');
@@ -447,13 +453,12 @@
       const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
     });
 
-    /* ===================== 참가 신청 (구글 시트만 저장: 프리플라이트 회피) ===================== */
+    /* ===================== 참가 신청 (구글 시트 저장) ===================== */
     $('#regForm').addEventListener('submit', async (e)=>{
       e.preventDefault();
       const submitBtn = $('#regSubmit');
       const fd = new FormData(e.target);
 
-      // URL-encoded로 전송 (브라우저가 헤더 자동 설정, 프리플라이트 없음)
       const body = new URLSearchParams({
         name:  String(fd.get('name') || '').trim(),
         phone: String(fd.get('phone')|| '').trim(),
@@ -484,36 +489,8 @@
       }
     });
 
-    // 옵션: 연결 핑 테스트 버튼 (GET)
-    $('#testPing').addEventListener('click', async ()=>{
-      if(!SHEET_ENDPOINT){ return alert('SHEET_ENDPOINT가 비어있습니다.'); }
-      const pingUrl = SHEET_ENDPOINT.replace(/\/exec$/, '/exec');
-      try{
-        const r = await fetch(pingUrl + '?ping=1');
-        const t = await r.text();
-        alert('연결 OK\n' + t.slice(0,120));
-      }catch(e){
-        alert('연결 실패: ' + e);
-      }
-    });
-
-    /* ===================== 요금 선택 ===================== */
-    const feeRadios = $$('input[name="fee"]');
-    const feeSelected = $('#feeSelected');
-    const customFee = $('#customFee');
-    function syncFee(){
-      const v = (feeRadios.find(r=>r.checked)||{}).value || '0';
-      if(v==='custom'){
-        customFee.style.display='block';
-        feeSelected.textContent = Number(customFee.value||0).toLocaleString() + '원';
-      } else {
-        customFee.style.display='none';
-        feeSelected.textContent = Number(v).toLocaleString() + '원';
-      }
-    }
-    feeRadios.forEach(r=>r.addEventListener('change', syncFee));
-    if(customFee){ customFee.addEventListener('input', syncFee); }
-    if(feeSelected){ syncFee(); }
+    /* ===================== 요금 선택(삭제됨에 따라 비활성) ===================== */
+    // 해당 섹션을 제거했으므로 관련 JS도 제거
 
     /* ===================== 메일 전송(메일앱) ===================== */
     const mailForm = $('#mailForm');
@@ -523,17 +500,14 @@
         const fd = new FormData(e.target);
         const to = $('#contactEmail').textContent.trim();
         const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님');
-
-          const body = encodeURIComponent(
-            '이름: ' + (fd.get('name')||'') + '\n' +
-            '이메일: ' + (fd.get('email')||'') + '\n\n' +
-            '내용:\n' + (fd.get('message')||'')
-          );
+        const body = encodeURIComponent(
+          '이름: ' + (fd.get('name')||'') + '\n' +
+          '이메일: ' + (fd.get('email')||'') + '\n\n' +
+          '내용:\n' + (fd.get('message')||'')
+        );
         location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
       });
     }
   </script>
 </body>
-</html> 
-
-여기에서 후원하기 버튼을 누르면 팝업이 뜨는데 거기에 후원 1구좌 5만원 참가비 5만원 이렇게 넣어줘. 그리고 섹션 중간에 있는 참가비후원선택내용은 삭제해줘
+</html>
