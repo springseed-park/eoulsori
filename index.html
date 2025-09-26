@@ -15,38 +15,56 @@
       --accent:#3bd1ff;
       --card:#14152a;
       --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,"Noto Sans KR",sans-serif;
       color:var(--text);
-      background:url('pungmul-hero.jpg') center/cover no-repeat fixed, linear-gradient(180deg,#0e0f1e,#11142b);
+      background:
+        url('pungmul-hero.jpg') center/cover no-repeat fixed,
+        linear-gradient(180deg,#0e0f1e,#11142b);
     }
     a{color:var(--accent);text-decoration:none}
     img{max-width:100%;display:block}
     .container{width:min(1100px,92%);margin:0 auto}
+
+    /* 헤더 */
     header{position:sticky;top:0;z-index:50;background:rgba(15,16,32,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
     .nav .brand{display:flex;gap:10px;align-items:center}
     .brand img{width:40px;height:40px;object-fit:cover;border-radius:50%}
+    .brand span{font-weight:800;letter-spacing:.3px}
     .nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
     .nav a{padding:8px 12px;border-radius:10px;color:var(--text)}
     .nav a:hover{background:rgba(255,255,255,.08)}
-    .btn{padding:10px 16px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
-    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#111;font-weight:800}
+
+    /* 버튼 */
+    .btn{padding:12px 18px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-weight:700}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#111}
     .btn.secondary{background:#22274a;color:#fff;border:1px solid rgba(255,255,255,.12)}
     .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}
-    section{padding:72px 20px;background:rgba(0,0,0,.68);margin:40px auto;width:min(1100px,92%);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+    .btn:disabled{opacity:.6;cursor:not-allowed}
+
+    /* 섹션 공통 */
+    section{padding:72px 20px;background:rgba(0,0,0,.68);margin:40px auto;width:min(1100px,92%);border-radius:16px;box-shadow:var(--shadow)}
     h1,h2,h3{margin:0 0 12px}
     .note{font-size:13px;color:var(--muted)}
+
     /* Hero */
     .hero{min-height:100svh;display:flex;align-items:center}
-    .hero .logo{width:min(160px,30vw);border-radius:50%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .hero .logo{width:min(160px,30vw);border-radius:50%;box-shadow:var(--shadow)}
+    .hero .badge{color:var(--brand-2);font-weight:800}
+    .hero h1{font-size:clamp(28px,4.5vw,54px)}
+    .hero .lead{color:var(--muted);margin:0 0 10px}
+    .cta{display:flex;gap:10px;flex-wrap:wrap}
     .countdown{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
     .cd-box{min-width:68px;text-align:center;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px}
     .cd-box b{font-size:22px;display:block}
     .cd-box span{font-size:12px;color:var(--muted)}
+
     /* Info */
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
     .info-item{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
@@ -54,11 +72,13 @@
     .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
     .program th{background:rgba(255,255,255,.06)}
     .map-card iframe{width:100%;height:340px;border:0;border-radius:12px}
+
     /* Fees */
     .fee{padding:18px;display:grid;gap:14px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
     .fee .options{display:flex;flex-wrap:wrap;gap:10px}
     .chip{padding:10px 14px;border-radius:999px;background:#21264a;border:1px solid rgba(255,255,255,.15);cursor:pointer;display:flex;align-items:center;gap:8px}
     .fee .summary{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
     /* History & gallery */
     .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
     .timeline ul{list-style:none;margin:0;padding:0}
@@ -67,12 +87,15 @@
     .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
     .marquee img{width:320px;height:210px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
     @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
     /* Contact */
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
     form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#1b1f42;color:var(--text)}
     textarea{min-height:120px}
+
     footer{padding:26px 0;color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.08);background:rgba(14,17,48,.85)}
+
     /* Modal */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
     .modal[open]{display:flex}
@@ -83,7 +106,9 @@
     .bank{font-weight:800;color:var(--brand)}
     .qr-wrap{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-top:12px}
     .qr-box{background:#111;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(255,255,255,.12)}
-    /* Responsive */
+    .hidden{display:none!important}
+
+    /* 반응형 */
     @media (max-width:900px){
       .info-grid,.contact-grid{grid-template-columns:1fr}
       form .row{grid-template-columns:1fr}
@@ -92,6 +117,7 @@
   </style>
 </head>
 <body>
+  <!-- 헤더 -->
   <header>
     <div class="container nav">
       <div class="brand"><img src="logo.png" alt="동아리 로고"/><span>풍물놀이패 40주년</span></div>
@@ -109,10 +135,10 @@
     <div class="container">
       <div style="display:grid;gap:14px;justify-items:start">
         <img class="logo" src="logo.png" alt="동아리 로고"/>
-        <div class="badge" style="color:var(--brand-2);font-weight:800">40th Anniversary</div>
-        <h1 style="font-size:clamp(28px,4.5vw,54px);margin:0">함께 울리고, 다시 모이다</h1>
-        <p style="color:var(--muted);margin:0 0 10px">2026년 5월 30일(토) · 대학아트홀 — 풍물놀이패 40주년 기념 한마당</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div class="badge">40th Anniversary</div>
+        <h1>함께 울리고, 다시 모이다</h1>
+        <p class="lead">2026년 5월 30일(토) · 대학아트홀 — 풍물놀이패 40주년 기념 한마당</p>
+        <div class="cta">
           <button class="btn primary" id="openReg">참가신청하기</button>
           <button class="btn secondary" id="openSponsor">후원하기</button>
           <a class="btn ghost" href="#about">행사안내 보기</a>
@@ -245,7 +271,7 @@
               </div>
               <div>
                 <label>이메일</label>
-                <input type="email" name="email" required />
+                <input type="email" name="email" />
               </div>
             </div>
             <div class="row" style="margin-top:10px">
@@ -301,8 +327,9 @@
           </div>
           <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
             <div>
-              <label>이메일</label>
-              <input type="email" name="email" required />
+              <label>이메일(선택)</label>
+              <!-- 이메일 필수 아님 -->
+              <input type="email" name="email" />
             </div>
             <div>
               <label>인원수</label>
@@ -314,26 +341,13 @@
             <textarea name="msg" placeholder="동아리에게 전하고 싶은 말"></textarea>
           </div>
           <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <button class="btn primary" type="submit">신청 완료</button>
-            <!-- 관리자만 볼 수 있도록 숨김 처리 + 비밀번호 보호 -->
-            <button class="btn secondary hidden" type="button" id="exportCsv">CSV 다운로드</button>
+            <button class="btn primary" type="submit" id="regSubmit">신청 완료</button>
             <span class="note">* 신청 내용은 주최측에만 저장됩니다.</span>
           </div>
         </form>
-
         <div style="padding:12px;margin-top:14px;background:rgba(20,21,42,.7);border-radius:12px;border:1px solid rgba(255,255,255,.08)">
-          <b>누적 현황</b>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px">
-            <div class="cd-box"><b id="aggPeople">0명</b><span>총 신청자 수</span></div>
-            <div class="cd-box"><b id="aggCount">0명</b><span>총 인원 합계</span></div>
-            <div class="cd-box"><b id="aggUpdated">-</b><span>마지막 업데이트</span></div>
-          </div>
-          <div style="margin-top:8px">
-            <details>
-              <summary>최근 신청 5건 보기</summary>
-              <ul id="recentList" style="margin:8px 0 0 18px"></ul>
-            </details>
-          </div>
+          <b>안내</b>
+          <p class="note" style="margin:6px 0 0">신청 정보는 구글 시트에만 저장됩니다. (브라우저 로컬 저장 안 함)</p>
         </div>
       </div>
     </div>
@@ -369,7 +383,16 @@
   </div>
 
   <script>
-    // ===== Fixed bg override via ?bg= or #bg= =====
+    /* ===================== 사용자 설정 ===================== */
+    // 구글 시트 Apps Script 웹앱 URL (반드시 “모든 사용자”로 배포한 URL)
+    // 예) https://script.google.com/macros/s/AKfycbx.../exec
+    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyMGWDQh_NjLkGbtXsK71eFVJXgVwMBbaqt2jlaxvFEY0AFZ8sriaemsLh31XPdzi14/exec';
+
+    /* ===================== 공통 유틸 ===================== */
+    const $ = (s, root=document) => root.querySelector(s);
+    const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
+
+    // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
     (function setFixedBodyBackground(){
       try{
         const search = new URLSearchParams(location.search);
@@ -385,104 +408,8 @@
       }catch(e){}
     })();
 
-    // ===== Shortcuts =====
-    const $ = (s, root=document) => root.querySelector(s);
-    const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
-
-    // ===== Registration store =====
-    const REG_KEY = 'pungmul40_registrations_v1';
-    const loadRegs = () => JSON.parse(localStorage.getItem(REG_KEY) || '[]');
-    const saveRegs = (arr) => localStorage.setItem(REG_KEY, JSON.stringify(arr));
-
-    // ===== Registration modal =====
-    const regModal = $('#regModal');
-  $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
-  $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
-  regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
-
-    $('#regForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const entry = {
-      name:  String(fd.get('name') || '').trim(),
-      phone: String(fd.get('phone')|| '').trim(),
-      email: String(fd.get('email')|| '').trim(),   // (지금은 required 상태 유지)
-      count: Math.max(1, Number(fd.get('count'))||1),
-      msg:   String(fd.get('msg')  || '').trim(),
-      ts:    new Date().toISOString()
-    };
-// ① 로컬 저장(기존 동작 유지)
-    const arr = loadRegs();
-    arr.unshift(entry);
-    saveRegs(arr);
-    updateAgg();
-
-    // ② 구글 시트로 전송 (URL 있으면만)
-    if (SHEET_ENDPOINT) {
-      try {
-        await fetch(SHEET_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify(entry)
-        });
-      } catch (err) {
-        console.warn('시트 저장 실패:', err);
-        // 실패해도 로컬 저장은 되어 있으니 알림만
-      }
-    }
-
-    e.target.reset();
-    alert('신청이 저장되었습니다. 감사합니다!');
-  });
-
-    function updateAgg(){
-      const arr = loadRegs();
-      const totalPeople = arr.length;
-      const totalCount = arr.reduce((a,c)=>a+(c.count||1),0);
-      $('#aggPeople').textContent = totalPeople + '명';
-      $('#aggCount').textContent = totalCount + '명';
-      $('#aggUpdated').textContent = arr[0] ? new Date(arr[0].ts).toLocaleString() : '-';
-      const ul = $('#recentList'); ul.innerHTML = '';
-      arr.slice(0,5).forEach(x=>{
-        const li = document.createElement('li');
-        li.textContent = x.name + ' · ' + x.count + '명 · ' + new Date(x.ts).toLocaleString();
-        ul.appendChild(li);
-      });
-    }
-    updateAgg();
-
-    // ===== CSV export (hidden + password) =====
-    function generateCsvFromRegistrations(arr){
-      const head = ['이름','연락처','이메일','인원수','메시지','신청시각'];
-      const rows = arr.map(x => [
-        x.name, x.phone, x.email, x.count, x.msg, new Date(x.ts).toLocaleString()
-      ].map(v => '"' + String(v).replaceAll('"','""') + '"').join(','));
-      const csv = [head.join(','), ...rows].join('\n');
-      return csv;
-    }
-    const exportBtn = $('#exportCsv');
-    const ADMIN_PASS = 'pungmul40!';
-    document.addEventListener('keydown', (e)=>{
-      if(e.ctrlKey && e.shiftKey && (e.key==='D' || e.key==='d')){
-        if(exportBtn){ exportBtn.classList.remove('hidden'); setTimeout(()=>exportBtn.classList.add('hidden'), 15000); }
-      }
-    });
-    (function(){ const p=new URLSearchParams(location.hash.replace(/^#/,'')); if(p.get('admin')===ADMIN_PASS && exportBtn){ exportBtn.classList.remove('hidden'); } })();
-    if(exportBtn){
-      exportBtn.addEventListener('click', ()=>{
-        const input = prompt('관리자 비밀번호를 입력하세요');
-        if(input !== ADMIN_PASS){ alert('비밀번호가 올바르지 않습니다.'); return; }
-        const arr = loadRegs();
-        if(!arr.length) return alert('내보낼 데이터가 없습니다.');
-        const csv = generateCsvFromRegistrations(arr);
-        const blob = new Blob(["\uFEFF"+csv], {type:'text/csv;charset=utf-8;'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); a.href = url; a.download = 'pungmul40_registrations.csv'; a.click(); URL.revokeObjectURL(url);
-      });
-    }
-
-    // ===== D-day countdown (KST) =====
-    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime();
+    /* ===================== D-DAY ===================== */
+    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime(); // KST 기준 2026-05-30
     function tick(){
       const now = Date.now();
       let diff = Math.max(0, eventDate - now);
@@ -495,39 +422,18 @@
     }
     tick(); setInterval(tick,1000);
 
-    // ===== Fee options =====
-    const feeRadios = $$('input[name="fee"]');
-    const feeSelected = $('#feeSelected');
-    const customFee = $('#customFee');
-    function syncFee(){
-      const v = (feeRadios.find(r=>r.checked)||{}).value || '0';
-      if(v==='custom'){ customFee.style.display='block'; feeSelected.textContent = Number(customFee.value||0).toLocaleString() + '원'; }
-      else { customFee.style.display='none'; feeSelected.textContent = Number(v).toLocaleString() + '원'; }
-    }
-    feeRadios.forEach(r=>r.addEventListener('change', syncFee));
-    if(customFee){ customFee.addEventListener('input', syncFee); }
-    if(feeSelected){ syncFee(); }
-    const btnPay = $('#btnPay'); if(btnPay){ btnPay.addEventListener('click', ()=> alert('결제 연동은 추후 PG/계좌이체/QR 등으로 연결하세요. 현재는 미구현 상태입니다.')); }
-
-    // ===== Contact mailto =====
-    const mailForm = $('#mailForm');
-    if(mailForm){
-      mailForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const fd = new FormData(e.target);
-        const to = $('#contactEmail').textContent.trim();
-        const subject = encodeURIComponent('[문의] ' + fd.get('name') + '님 (' + fd.get('type') + ')');
-        const body = encodeURIComponent('이름: ' + fd.get('name') + '\n이메일: ' + fd.get('email') + '\n연락처: ' + (fd.get('phone')||'') + '\n유형: ' + fd.get('type') + '\n\n내용:\n' + fd.get('message'));
-        window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
-      });
-    }
-
-    // ===== Sponsor modal with QR =====
+    /* ===================== 모달 ===================== */
+    const regModal = $('#regModal');
     const sponsorModal = $('#sponsorModal');
+    $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
+    $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
+    regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
+
     $('#openSponsor').addEventListener('click', ()=> sponsorModal.setAttribute('open',''));
     $('#closeSponsor').addEventListener('click', ()=> sponsorModal.removeAttribute('open'));
     sponsorModal.addEventListener('click', (e)=>{ if(e.target.id==='sponsorModal') sponsorModal.removeAttribute('open'); });
 
+    /* ===================== 후원 QR/복사 ===================== */
     const acctEl = $('#accountNumber');
     const bankEl = $('#bankInfo');
     const qrImg = $('#qrImage');
@@ -550,16 +456,85 @@
       const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
     });
 
-    // ===== Self tests (console) =====
-    (function runTests(){
-      try{
-        const csv = generateCsvFromRegistrations([{name:'홍 "길"동',phone:'010',email:'a@b.com',count:2,msg:'안녕',ts:new Date().toISOString()}]);
-        if(csv.split('\n').length < 2) throw new Error('CSV 줄바꿈 실패');
-        console.log('%c[TEST] CSV OK','color: #27c49a');
-      }catch(e){ console.error('[TEST] 실패', e); }
-    })();
+    /* ===================== 참가 신청 (구글 시트만 저장) ===================== */
+    $('#regForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const submitBtn = $('#regSubmit');
+      const fd = new FormData(e.target);
+      const entry = {
+        name:  String(fd.get('name') || '').trim(),
+        phone: String(fd.get('phone')|| '').trim(),
+        email: String(fd.get('email')|| '').trim(), // 선택 입력
+        count: Math.max(1, Number(fd.get('count'))||1),
+        msg:   String(fd.get('msg')  || '').trim(),
+        ts:    new Date().toISOString()
+      };
 
-      const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyMGWDQh_NjLkGbtXsK71eFVJXgVwMBbaqt2jlaxvFEY0AFZ8sriaemsLh31XPdzi14/exec';
+      if(!SHEET_ENDPOINT){
+        alert('관리자 설정 필요: SHEET_ENDPOINT가 비어있습니다.');
+        return;
+      }
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '전송 중...';
+        const res = await fetch(SHEET_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(entry)
+        });
+        if(!res.ok){
+          const t = await res.text().catch(()=> '');
+          throw new Error('HTTP '+res.status+' '+t);
+        }
+        alert('신청이 정상 접수되었습니다. 감사합니다!');
+        e.target.reset();
+        regModal.removeAttribute('open');
+      } catch (err){
+        console.error(err);
+        alert('구글 시트 저장에 실패했습니다. (네트워크/권한 확인)');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청 완료';
+      }
+    });
+
+    /* ===================== 요금 선택 ===================== */
+    const feeRadios = $$('input[name="fee"]');
+    const feeSelected = $('#feeSelected');
+    const customFee = $('#customFee');
+    function syncFee(){
+      const v = (feeRadios.find(r=>r.checked)||{}).value || '0';
+      if(v==='custom'){
+        customFee.style.display='block';
+        feeSelected.textContent = Number(customFee.value||0).toLocaleString() + '원';
+      } else {
+        customFee.style.display='none';
+        feeSelected.textContent = Number(v).toLocaleString() + '원';
+      }
+    }
+    feeRadios.forEach(r=>r.addEventListener('change', syncFee));
+    if(customFee){ customFee.addEventListener('input', syncFee); }
+    if(feeSelected){ syncFee(); }
+
+    /* ===================== 메일 전송(메일앱) ===================== */
+    const mailForm = $('#mailForm');
+    if(mailForm){
+      mailForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const to = $('#contactEmail').textContent.trim();
+        const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님 (' + (fd.get('type')||'') + ')');
+        const body = encodeURIComponent(
+          '이름: ' + (fd.get('name')||'') + '\n' +
+          '이메일: ' + (fd.get('email')||'') + '\n' +
+          '연락처: ' + (fd.get('phone')||'') + '\n' +
+          '유형: ' + (fd.get('type')||'') + '\n\n' +
+          '내용:\n' + (fd.get('message')||'')
+        );
+        location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+      });
+    }
   </script>
 </body>
 </html>
