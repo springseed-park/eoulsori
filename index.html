@@ -328,7 +328,6 @@
           <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
             <div>
               <label>이메일(선택)</label>
-              <!-- 이메일 필수 아님 -->
               <input type="email" name="email" />
             </div>
             <div>
@@ -342,7 +341,8 @@
           </div>
           <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
             <button class="btn primary" type="submit" id="regSubmit">신청 완료</button>
-            <span class="note">* 신청 내용은 주최측에만 저장됩니다.</span>
+            <button class="btn ghost" type="button" id="testPing" title="시트 연결 테스트">연결 테스트</button>
+            <span class="note">* 신청 정보는 구글 시트에만 저장됩니다.</span>
           </div>
         </form>
         <div style="padding:12px;margin-top:14px;background:rgba(20,21,42,.7);border-radius:12px;border:1px solid rgba(255,255,255,.08)">
@@ -384,7 +384,7 @@
 
   <script>
     /* ===================== 사용자 설정 ===================== */
-    // 구글 시트 Apps Script 웹앱 URL (반드시 “모든 사용자”로 배포한 URL)
+    // 구글 시트 Apps Script 웹앱 URL (반드시 "모든 사용자"로 배포한 URL)
     // 예) https://script.google.com/macros/s/AKfycbx.../exec
     const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxsyfqTs7GvvccJicsNDzv8dLCRyJaMLJPPQsp5NdADB_BnuCNgxDpW__zqt8phlaN5/exec';
 
@@ -392,11 +392,8 @@
     const $ = (s, root=document) => root.querySelector(s);
     const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 
-    // ✅ 과거 로컬 저장 잔여물 강제 청소 (한 번 더 안전빵)
-  try {
-    localStorage.removeItem('pungmul40_registrations_v1');
-  } catch (e) {}
-
+    // ✅ 과거 로컬 저장 잔여물 강제 청소 (혹시 남았을 경우 대비)
+    try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
 
     // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
     (function setFixedBodyBackground(){
@@ -406,9 +403,7 @@
         const src = search.get('bg') || hashParams.get('bg');
         if(src){
           const test = new Image();
-          test.onload = function(){
-            document.body.style.backgroundImage = "url('"+ src.replace(/'/g,"\\'") +"')";
-          };
+          test.onload = function(){ document.body.style.backgroundImage = "url('"+ src.replace(/'/g,"\\'") +"')"; };
           test.src = src;
         }
       }catch(e){}
@@ -462,55 +457,55 @@
       const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
     });
 
-    /* ===================== 참가 신청 (구글 시트만 저장) ===================== */
- $('#regForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const submitBtn = $('#regSubmit');
-  const fd = new FormData(e.target);
+    /* ===================== 참가 신청 (구글 시트만 저장: 프리플라이트 회피) ===================== */
+    $('#regForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const submitBtn = $('#regSubmit');
+      const fd = new FormData(e.target);
 
-  // 전송 페이로드: URLSearchParams (브라우저가 자동으로
-  // Content-Type: application/x-www-form-urlencoded; charset=UTF-8 설정)
-  const body = new URLSearchParams({
-    name:  String(fd.get('name') || '').trim(),
-    phone: String(fd.get('phone')|| '').trim(),
-    email: String(fd.get('email')|| '').trim(),
-    count: String(Math.max(1, Number(fd.get('count'))||1)),
-    msg:   String(fd.get('msg')  || '').trim(),
-    ts:    new Date().toISOString()
-  });
+      // URL-encoded로 전송 (브라우저가 헤더 자동 설정, 프리플라이트 없음)
+      const body = new URLSearchParams({
+        name:  String(fd.get('name') || '').trim(),
+        phone: String(fd.get('phone')|| '').trim(),
+        email: String(fd.get('email')|| '').trim(),
+        count: String(Math.max(1, Number(fd.get('count'))||1)),
+        msg:   String(fd.get('msg')  || '').trim(),
+        ts:    new Date().toISOString()
+      });
 
-  if(!SHEET_ENDPOINT){
-    alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음');
-    return;
-  }
+      if(!SHEET_ENDPOINT){ alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음'); return; }
 
-  try {
-    submitBtn.disabled = true;
-    submitBtn.textContent = '전송 중...';
+      try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '전송 중...';
 
-    // ✅ 헤더 지정 금지(프리플라이트 유발 방지)
-    const res = await fetch(SHEET_ENDPOINT, {
-      method: 'POST',
-      body // URL-encoded 폼 데이터
+        const res = await fetch(SHEET_ENDPOINT, { method: 'POST', body });
+        try { console.log('[GAS] response:', await res.clone().text()); } catch(_) {}
+
+        alert('신청이 접수되었습니다. 감사합니다!');
+        e.target.reset();
+        regModal.removeAttribute('open');
+      } catch (err) {
+        console.error(err);
+        alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인)');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청 완료';
+      }
     });
 
-    // Apps Script가 익명 응답을 200으로 주면 ok; 아니라도 실제로는 저장됨
-    if (!res.ok && res.type !== 'opaque') {
-      // opaque는 no-cors에서 자주 보이지만 여기선 기본 cors여도 발생 가능
-      console.warn('응답 상태:', res.status);
-    }
-
-    alert('신청이 접수되었습니다. 감사합니다!');
-    e.target.reset();
-    $('#regModal')?.removeAttribute('open');
-  } catch (err) {
-    console.error(err);
-    alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인).');
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = '신청 완료';
-  }
-});
+    // 옵션: 연결 핑 테스트 버튼 (GET)
+    $('#testPing').addEventListener('click', async ()=>{
+      if(!SHEET_ENDPOINT){ return alert('SHEET_ENDPOINT가 비어있습니다.'); }
+      const pingUrl = SHEET_ENDPOINT.replace(/\/exec$/, '/exec');
+      try{
+        const r = await fetch(pingUrl + '?ping=1');
+        const t = await r.text();
+        alert('연결 OK\n' + t.slice(0,120));
+      }catch(e){
+        alert('연결 실패: ' + e);
+      }
+    });
 
     /* ===================== 요금 선택 ===================== */
     const feeRadios = $$('input[name="fee"]');
