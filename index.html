@@ -396,28 +396,44 @@
 
     // ===== Registration modal =====
     const regModal = $('#regModal');
-    $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
-    $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
-    regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
+  $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
+  $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
+  regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
 
-    $('#regForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const entry = {
-        name: String(fd.get('name')||'').trim(),
-        phone: String(fd.get('phone')||'').trim(),
-        email: String(fd.get('email')||'').trim(),
-        count: Math.max(1, Number(fd.get('count'))||1),
-        msg: String(fd.get('msg')||'').trim(),
-        ts: new Date().toISOString()
-      };
-      const arr = loadRegs();
-      arr.unshift(entry);
-      saveRegs(arr);
-      e.target.reset();
-      updateAgg();
-      alert('신청이 저장되었습니다. 감사합니다!');
-    });
+    $('#regForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const entry = {
+      name:  String(fd.get('name') || '').trim(),
+      phone: String(fd.get('phone')|| '').trim(),
+      email: String(fd.get('email')|| '').trim(),   // (지금은 required 상태 유지)
+      count: Math.max(1, Number(fd.get('count'))||1),
+      msg:   String(fd.get('msg')  || '').trim(),
+      ts:    new Date().toISOString()
+    };
+// ① 로컬 저장(기존 동작 유지)
+    const arr = loadRegs();
+    arr.unshift(entry);
+    saveRegs(arr);
+    updateAgg();
+
+    // ② 구글 시트로 전송 (URL 있으면만)
+    if (SHEET_ENDPOINT) {
+      try {
+        await fetch(SHEET_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(entry)
+        });
+      } catch (err) {
+        console.warn('시트 저장 실패:', err);
+        // 실패해도 로컬 저장은 되어 있으니 알림만
+      }
+    }
+
+    e.target.reset();
+    alert('신청이 저장되었습니다. 감사합니다!');
+  });
 
     function updateAgg(){
       const arr = loadRegs();
@@ -542,6 +558,8 @@
         console.log('%c[TEST] CSV OK','color: #27c49a');
       }catch(e){ console.error('[TEST] 실패', e); }
     })();
+
+      const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwD7nyNW6kGeACMXw2I43tGD2zWwtGUdmZJaQkeq6yRBDeTYv04u7iU8x_7XEezaYGq/exec';
   </script>
 </body>
 </html>
