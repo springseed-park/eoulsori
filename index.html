@@ -263,40 +263,28 @@
 
         <div style="padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)">
           <h3 style="margin-top:0">메일 보내기</h3>
-          <form id="mailForm">
-            <div class="row">
-              <div>
-                <label>이름</label>
-                <input type="text" name="name" required />
+            <form id="mailForm">
+              <div class="row">
+                <div>
+                  <label>이름</label>
+                  <input type="text" name="name" required />
+                </div>
+                <div>
+                  <label>이메일</label>
+                  <input type="email" name="email" />
+                </div>
               </div>
-              <div>
-                <label>이메일</label>
-                <input type="email" name="email" />
+            
+              <div style="margin-top:10px">
+                <label>내용</label>
+                <textarea name="message" required></textarea>
               </div>
-            </div>
-            <div class="row" style="margin-top:10px">
-              <div>
-                <label>연락처</label>
-                <input type="tel" name="phone" />
+            
+              <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <button class="btn primary" type="submit">메일 전송</button>
+                <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
               </div>
-              <div>
-                <label>문의 유형</label>
-                <select name="type">
-                  <option value="general">일반 문의</option>
-                  <option value="volunteer">자원봉사</option>
-                  <option value="sponsor">후원 문의</option>
-                </select>
-              </div>
-            </div>
-            <div style="margin-top:10px">
-              <label>내용</label>
-              <textarea name="message" required></textarea>
-            </div>
-            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-              <button class="btn primary" type="submit">메일 전송</button>
-              <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
-            </div>
-          </form>
+            </form>
         </div>
       </div>
     </div>
@@ -410,7 +398,7 @@
     })();
 
     /* ===================== D-DAY ===================== */
-    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime(); // KST 기준 2026-05-30
+    const eventDate = new Date('2026-05-30T00:00:00+09:00').getTime();
     function tick(){
       const now = Date.now();
       let diff = Math.max(0, eventDate - now);
@@ -418,8 +406,10 @@
       const h = Math.floor(diff / 3600000); diff -= h*3600000;
       const m = Math.floor(diff / 60000); diff -= m*60000;
       const s = Math.floor(diff / 1000);
-      $('#days').textContent = d; $('#hours').textContent = h; $('#mins').textContent = m; $('#secs').textContent = s;
-      $('#dday').textContent = d === 0 ? 0 : d;
+      document.querySelector('#dday').textContent = d;
+      document.querySelector('#hours').textContent = h;
+      document.querySelector('#mins').textContent = m;
+      document.querySelector('#secs').textContent = s;
     }
     tick(); setInterval(tick,1000);
 
@@ -532,14 +522,13 @@
         e.preventDefault();
         const fd = new FormData(e.target);
         const to = $('#contactEmail').textContent.trim();
-        const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님 (' + (fd.get('type')||'') + ')');
-        const body = encodeURIComponent(
-          '이름: ' + (fd.get('name')||'') + '\n' +
-          '이메일: ' + (fd.get('email')||'') + '\n' +
-          '연락처: ' + (fd.get('phone')||'') + '\n' +
-          '유형: ' + (fd.get('type')||'') + '\n\n' +
-          '내용:\n' + (fd.get('message')||'')
-        );
+        const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님');
+
+          const body = encodeURIComponent(
+            '이름: ' + (fd.get('name')||'') + '\n' +
+            '이메일: ' + (fd.get('email')||'') + '\n\n' +
+            '내용:\n' + (fd.get('message')||'')
+          );
         location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
       });
     }
