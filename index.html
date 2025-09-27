@@ -85,7 +85,9 @@
     .marquee{display:flex;gap:16px;overflow:hidden}
     .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
     .marquee img{width:320px;height:210px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
-    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}
+
+    }
 
     /* Contact */
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -144,7 +146,7 @@
           <a class="btn ghost" href="#about">행사안내 보기</a>
         </div>
 
-        <!-- ✅ D-Day (유지/복원) -->
+        <!-- D-Day -->
         <div class="countdown" aria-live="polite">
           <span class="label">D-Day</span>
           <span id="dday">0</span>일  <span id="hours">00</span> : <span id="mins">00</span> : <span id="secs">00</span>
@@ -182,11 +184,11 @@
           </div>
         </div>
 
-        <!-- ✅ 카카오 지도 카드 -->
+        <!-- 카카오 지도 -->
         <div class="info-item map-card">
           <div id="kakaoMap" aria-label="한남대학교 무어아트홀 지도"></div>
           <div class="note" style="padding-top:8px">
-            * 카카오 지도(고정 좌표 테스트) — 확인 후 주소 지오코딩으로 전환 가능
+            * 마커를 클릭하면 카카오 길찾기가 새 창으로 열립니다.
           </div>
         </div>
       </div>
@@ -366,7 +368,7 @@
     // 로컬 저장 잔여물 정리
     try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
 
-    // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
+    // 배경 이미지를 ?bg= 또는 #bg=로 교체
     (function setFixedBodyBackground(){
       try{
         const search = new URLSearchParams(location.search);
@@ -380,14 +382,12 @@
       }catch(e){}
     })();
 
-    /* ===================== D-DAY (사파리 호환) — 유지 ===================== */
+    /* ===================== D-DAY (사파리 호환) ===================== */
     (function(){
       let eventMs = Date.parse('2026-05-30T00:00:00+09:00');
-      if (isNaN(eventMs)) eventMs = Date.parse('2026-05-29T15:00:00Z'); // 동일 시각(UTC)
-
+      if (isNaN(eventMs)) eventMs = Date.parse('2026-05-29T15:00:00Z');
       const dEl = $('#dday'), hEl = $('#hours'), mEl = $('#mins'), sEl = $('#secs');
       if(!dEl || !hEl || !mEl || !sEl) return;
-
       function tick(){
         const now = Date.now();
         let diff = Math.max(0, eventMs - now);
@@ -395,7 +395,6 @@
         const h = Math.floor(diff / 3600000); diff -= h*3600000;
         const m = Math.floor(diff / 60000); diff -= m*60000;
         const s = Math.floor(diff / 1000);
-
         dEl.textContent = d;
         hEl.textContent = String(h).padStart(2,'0');
         mEl.textContent = String(m).padStart(2,'0');
@@ -420,15 +419,12 @@
     const acctEl = $('#accountNumber');
     const bankEl = $('#bankInfo');
     const qrImg = $('#qrImage');
-
     function refreshQR(){
       const payload = acctEl.textContent.trim() + ' | ' + bankEl.textContent.trim();
       const url = 'https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=' + encodeURIComponent(payload);
-      qrImg.src = url;
-      qrImg.alt = 'QR: ' + payload;
+      qrImg.src = url; qrImg.alt = 'QR: ' + payload;
     }
     refreshQR();
-
     $('#copyAccount').addEventListener('click', async ()=>{
       try{ await navigator.clipboard.writeText(acctEl.textContent.trim()); alert('계좌번호가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
     });
@@ -444,7 +440,6 @@
       e.preventDefault();
       const submitBtn = $('#regSubmit');
       const fd = new FormData(e.target);
-
       const body = new URLSearchParams({
         name:  String(fd.get('name') || '').trim(),
         phone: String(fd.get('phone')|| '').trim(),
@@ -453,19 +448,14 @@
         msg:   String(fd.get('msg')  || '').trim(),
         ts:    new Date().toISOString()
       });
-
       if(!SHEET_ENDPOINT){ alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음'); return; }
-
       try {
         submitBtn.disabled = true;
         submitBtn.textContent = '전송 중...';
-
         const res = await fetch(SHEET_ENDPOINT, { method: 'POST', body });
         try { console.log('[GAS] response:', await res.clone().text()); } catch(_) {}
-
         alert('신청이 접수되었습니다. 감사합니다!');
-        e.target.reset();
-        regModal.removeAttribute('open');
+        e.target.reset(); regModal.removeAttribute('open');
       } catch (err) {
         console.error(err);
         alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인)');
@@ -492,37 +482,52 @@
       });
     }
 
-    /* ===================== 지도: 동적 SDK 주입 + 고정좌표 ===================== */
+    /* ===================== 지도: 지오코딩 + 마커 클릭 길찾기 ===================== */
     function initKakaoMap() {
-      console.log('[MAP] init');
-      if (!window.kakao || !kakao.maps) { console.error('[MAP] kakao.maps 없음'); return; }
+      if (!window.kakao || !kakao.maps) return;
       const el = document.getElementById('kakaoMap');
-      if (!el) { console.error('[MAP] #kakaoMap 없음'); return; }
-      console.log('[MAP] size', el.offsetWidth, el.offsetHeight);
+      if (!el) return;
 
-      // 무어아트홀 근처(테스트용 고정 좌표)
-      const POS = new kakao.maps.LatLng(36.3499, 127.3790);
+      const fallback = new kakao.maps.LatLng(36.3499, 127.3790); // 캠퍼스 근처
+      const map = new kakao.maps.Map(el, { center: fallback, level: 3 });
+      map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
-      const map = new kakao.maps.Map(el, { center: POS, level: 3 });
-      const marker = new kakao.maps.Marker({ position: POS });
-      marker.setMap(map);
+      const geocoder = new kakao.maps.services.Geocoder();
+      const PLACE = '한남대학교 무어아트홀';
+      const ADDRESS = '대전 대덕구 한남로18번길 11';
 
-      const info = new kakao.maps.InfoWindow({
-        content: '<div style="padding:6px 10px;font-size:13px;">무어아트홀 근처(고정좌표)</div>'
+      geocoder.addressSearch(ADDRESS, (result, status) => {
+        let pos = fallback;
+        if (status === kakao.maps.services.Status.OK && result?.length) {
+          pos = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(pos);
+        } else {
+          console.warn('[MAP] geocode fail:', status, result);
+        }
+
+        const marker = new kakao.maps.Marker({ position: pos });
+        marker.setMap(map);
+
+        new kakao.maps.InfoWindow({
+          content: '<div style="padding:8px 10px;font-size:13px;">'+PLACE+'<br><span style="color:#999;">(글로벌센터)</span></div>'
+        }).open(map, marker);
+
+        // ✅ 마커 클릭 → 카카오 길찾기 새창
+        kakao.maps.event.addListener(marker,'click',()=>{
+          const name = encodeURIComponent(PLACE);
+          const url = 'https://map.kakao.com/link/to/' + name + ',' + pos.getLat() + ',' + pos.getLng();
+          window.open(url,'_blank','noopener');
+        });
       });
-      info.open(map, marker);
-
-      kakao.maps.event.addListener(map, 'tilesloaded', ()=>console.log('[MAP] tilesloaded'));
     }
 
-    // ✅ Kakao SDK 동적 주입 (onload 속성 대신 확실하게)
+    // Kakao SDK 동적 주입 (services 포함)
     (function injectKakaoSDK(){
-      console.log('[SDK] inject start');
       var s = document.createElement('script');
-      s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false';
+      s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false&libraries=services';
       s.async = true;
-      s.onload = function(){ console.log('[SDK] loaded'); kakao.maps.load(initKakaoMap); };
-      s.onerror = function(){ console.error('[SDK] load error (네트워크/키/도메인 확인)'); };
+      s.onload = function(){ kakao.maps.load(initKakaoMap); };
+      s.onerror = function(){ console.error('[SDK] load error'); };
       document.head.appendChild(s);
     })();
   </script>
