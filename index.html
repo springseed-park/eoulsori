@@ -506,7 +506,7 @@
     }
   </script>
 
-  <!-- ✅ Kakao Maps SDK (autoload=false) + 지도 초기화 -->
+  <!-- ✅ Kakao Maps SDK (autoload=false) + 지도 초기화 
   <script>
     function initKakaoMap(){
       const container = document.getElementById('kakaoMap');
@@ -545,6 +545,34 @@
     }
   </script>
   <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services&autoload=false"
-          onload="kakao.maps.load(initKakaoMap)"></script>
+          onload="kakao.maps.load(initKakaoMap)"></script>-->
+  <script>
+  function initKakaoMap() {
+    // 1) kakao 객체 확인
+    if (!window.kakao || !kakao.maps) { console.error('Kakao SDK not loaded'); return; }
+
+    // 2) 엘리먼트/사이즈 확인
+    const el = document.getElementById('kakaoMap');
+    if (!el) { console.error('#kakaoMap not found'); return; }
+    console.log('map size:', el.offsetWidth, el.offsetHeight);
+
+    // 3) 지오코딩 없이 고정 좌표로 먼저 렌더 (한남대 근처)
+    const POS = new kakao.maps.LatLng(36.3499, 127.3790);
+
+    const map = new kakao.maps.Map(el, { center: POS, level: 3 });
+    const marker = new kakao.maps.Marker({ position: POS });
+    marker.setMap(map);
+
+    new kakao.maps.InfoWindow({
+      content: '<div style="padding:6px 10px;font-size:13px;">무어아트홀 근처(고정좌표)</div>'
+    }).open(map, marker);
+
+    kakao.maps.event.addListener(map, 'tilesloaded', () => {
+      console.log('tilesloaded: 지도 타일 로드 완료');
+    });
+  }
+</script>
+<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false"
+        onload="kakao.maps.load(initKakaoMap)"></script>
 </body>
 </html>
