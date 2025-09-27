@@ -113,9 +113,7 @@
       form .row{grid-template-columns:1fr}
       .qr-wrap{grid-template-columns:1fr}
     }
-    @media (max-width: 400px) {
-      nav ul{display:none}
-    }
+    @media (max-width: 400px) { nav ul{display:none} }
   </style>
 </head>
 <body>
@@ -146,7 +144,7 @@
           <a class="btn ghost" href="#about">행사안내 보기</a>
         </div>
 
-        <!-- D-Day -->
+        <!-- ✅ D-Day (유지/복원) -->
         <div class="countdown" aria-live="polite">
           <span class="label">D-Day</span>
           <span id="dday">0</span>일  <span id="hours">00</span> : <span id="mins">00</span> : <span id="secs">00</span>
@@ -184,11 +182,11 @@
           </div>
         </div>
 
-        <!-- ✅ 카카오 지도 카드 (고정좌표 테스트) -->
+        <!-- ✅ 카카오 지도 카드 -->
         <div class="info-item map-card">
           <div id="kakaoMap" aria-label="한남대학교 무어아트홀 지도"></div>
           <div class="note" style="padding-top:8px">
-            * 카카오 지도(고정 좌표 테스트). 이후 지오코딩 재적용 가능.
+            * 카카오 지도(고정 좌표 테스트) — 확인 후 주소 지오코딩으로 전환 가능
           </div>
         </div>
       </div>
@@ -365,7 +363,7 @@
     const $ = (s, root=document) => root.querySelector(s);
     const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 
-    // 과거 로컬 저장 잔여물 강제 청소
+    // 로컬 저장 잔여물 정리
     try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
 
     // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
@@ -382,17 +380,12 @@
       }catch(e){}
     })();
 
-    /* ===================== D-DAY (사파리 호환) ===================== */
+    /* ===================== D-DAY (사파리 호환) — 유지 ===================== */
     (function(){
       let eventMs = Date.parse('2026-05-30T00:00:00+09:00');
-      if (isNaN(eventMs)) {
-        eventMs = Date.parse('2026-05-29T15:00:00Z'); // 동일 시각(UTC)
-      }
+      if (isNaN(eventMs)) eventMs = Date.parse('2026-05-29T15:00:00Z'); // 동일 시각(UTC)
 
-      const dEl = $('#dday');
-      const hEl = $('#hours');
-      const mEl = $('#mins');
-      const sEl = $('#secs');
+      const dEl = $('#dday'), hEl = $('#hours'), mEl = $('#mins'), sEl = $('#secs');
       if(!dEl || !hEl || !mEl || !sEl) return;
 
       function tick(){
@@ -499,45 +492,39 @@
       });
     }
 
-    <script>
-  // 지도 초기화 함수
-  function initKakaoMap() {
-    console.log('[MAP] init');
-    if (!window.kakao || !kakao.maps) { console.error('[MAP] kakao.maps 없음'); return; }
-    const el = document.getElementById('kakaoMap');
-    if (!el) { console.error('[MAP] #kakaoMap 없음'); return; }
-    console.log('[MAP] size', el.offsetWidth, el.offsetHeight);
+    /* ===================== 지도: 동적 SDK 주입 + 고정좌표 ===================== */
+    function initKakaoMap() {
+      console.log('[MAP] init');
+      if (!window.kakao || !kakao.maps) { console.error('[MAP] kakao.maps 없음'); return; }
+      const el = document.getElementById('kakaoMap');
+      if (!el) { console.error('[MAP] #kakaoMap 없음'); return; }
+      console.log('[MAP] size', el.offsetWidth, el.offsetHeight);
 
-    // 고정 좌표 (무어아트홀 근처, 나중에 주소검색으로 바꿀 수 있음)
-    const POS = new kakao.maps.LatLng(36.3499, 127.3790);
+      // 무어아트홀 근처(테스트용 고정 좌표)
+      const POS = new kakao.maps.LatLng(36.3499, 127.3790);
 
-    const map = new kakao.maps.Map(el, { center: POS, level: 3 });
-    const marker = new kakao.maps.Marker({ position: POS });
-    marker.setMap(map);
+      const map = new kakao.maps.Map(el, { center: POS, level: 3 });
+      const marker = new kakao.maps.Marker({ position: POS });
+      marker.setMap(map);
 
-    new kakao.maps.InfoWindow({
-      content: '<div style="padding:6px 10px;font-size:13px;">무어아트홀</div>'
-    }).open(map, marker);
+      const info = new kakao.maps.InfoWindow({
+        content: '<div style="padding:6px 10px;font-size:13px;">무어아트홀 근처(고정좌표)</div>'
+      });
+      info.open(map, marker);
 
-    kakao.maps.event.addListener(map, 'tilesloaded', ()=>console.log('[MAP] tilesloaded'));
-  }
+      kakao.maps.event.addListener(map, 'tilesloaded', ()=>console.log('[MAP] tilesloaded'));
+    }
 
-  // ✅ SDK를 동적으로 주입 (onload 속성 안 씀)
-  (function injectKakaoSDK(){
-    console.log('[SDK] inject start');
-    var s = document.createElement('script');
-    s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false';
-    s.async = true;
-    s.onload = function(){
-      console.log('[SDK] loaded');
-      kakao.maps.load(initKakaoMap);
-    };
-    s.onerror = function(){
-      console.error('[SDK] load error (네트워크/키/도메인 확인)');
-    };
-    document.head.appendChild(s);
-  })();
-</script>
-
+    // ✅ Kakao SDK 동적 주입 (onload 속성 대신 확실하게)
+    (function injectKakaoSDK(){
+      console.log('[SDK] inject start');
+      var s = document.createElement('script');
+      s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false';
+      s.async = true;
+      s.onload = function(){ console.log('[SDK] loaded'); kakao.maps.load(initKakaoMap); };
+      s.onerror = function(){ console.error('[SDK] load error (네트워크/키/도메인 확인)'); };
+      document.head.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
