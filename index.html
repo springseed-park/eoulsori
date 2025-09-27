@@ -40,11 +40,7 @@
     .nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
     .nav a{padding:8px 12px;border-radius:10px;color:var(--text)}
     .nav a:hover{background:rgba(255,255,255,.08)}
-
-    /* 모바일에서 메뉴 숨김 */
-    @media (max-width:768px){
-      .nav ul{display:none}
-    }
+    @media (max-width:768px){ .nav ul{display:none} }
 
     /* 버튼 */
     .btn{padding:12px 18px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-weight:700}
@@ -66,25 +62,13 @@
     .hero .lead{color:var(--muted);margin:0 0 10px}
     .cta{display:flex;gap:10px;flex-wrap:wrap}
 
-    /* D-Day: 단일 블럭 스타일 */
+    /* D-Day */
     .countdown{
-      margin-top:20px;
-      padding:12px 18px;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:12px;
-      display:inline-block;
-      font-weight:700;
-      font-size:20px;
+      margin-top:20px;padding:12px 18px;background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);border-radius:12px;display:inline-block;
+      font-weight:700;font-size:20px;
     }
-    .countdown .label{
-      display:block;
-      font-size:13px;
-      font-weight:600;
-      color:var(--brand-2);
-      margin-bottom:4px;
-      text-align:center
-    }
+    .countdown .label{display:block;font-size:13px;font-weight:600;color:var(--brand-2);margin-bottom:4px;text-align:center}
 
     /* Info */
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -516,53 +500,45 @@
     }
   </script>
 
-  <!-- ✅ Kakao Maps SDK (services 포함) -->
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services&autoload=false"
-        onload="kakao.maps.load(initKakaoMap)"></script>
+  <!-- ✅ Kakao Maps SDK (autoload=false) + 지도 초기화 -->
   <script>
-    (function initKakaoMap(){
-      const ADDRESS = '대전 대덕구 한남로18번길 11'; // 한남대 글로벌센터 무어아트홀
+    function initKakaoMap(){
       const container = document.getElementById('kakaoMap');
       if(!container) return;
 
-      // 지오코딩 실패 시 사용할 임시 좌표(캠퍼스 근처)
-      const fallbackLatLng = new kakao.maps.LatLng(36.3499, 127.3790);
+      // 지오코딩 실패 대비 기본 좌표(캠퍼스 근처)
+      const fallback = new kakao.maps.LatLng(36.3499, 127.3790);
 
       const map = new kakao.maps.Map(container, {
-        center: fallbackLatLng,
+        center: fallback,
         level: 3
       });
 
       // 확대/축소 컨트롤
-      const zoomCtrl = new kakao.maps.ZoomControl();
-      map.addControl(zoomCtrl, kakao.maps.ControlPosition.RIGHT);
+      map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
+      // 주소 → 좌표
       const geocoder = new kakao.maps.services.Geocoder();
-
-      geocoder.addressSearch(ADDRESS, function(result, status){
-        let position = fallbackLatLng;
-
-        if (status === kakao.maps.services.Status.OK && result && result.length){
-          position = new kakao.maps.LatLng(result[0].y, result[0].x);
-          map.setCenter(position);
+      const ADDRESS = '대전 대덕구 한남로18번길 11'; // 무어아트홀 주소
+      geocoder.addressSearch(ADDRESS, (result, status) => {
+        let pos = fallback;
+        if (status === kakao.maps.services.Status.OK && result?.length){
+          pos = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(pos);
+        } else {
+          console.warn('지오코딩 실패:', status, result);
         }
 
-        const marker = new kakao.maps.Marker({ position });
+        const marker = new kakao.maps.Marker({ position: pos });
         marker.setMap(map);
 
-        const info = new kakao.maps.InfoWindow({
-          content:
-            '<div style="padding:8px 10px;font-size:13px;">' +
-            '한남대학교 무어아트홀<br><span style="color:#999;">(글로벌센터 47동 2층)</span>' +
-            '</div>'
-        });
-        info.open(map, marker);
-
-        kakao.maps.event.addListener(marker, 'click', function(){
-          info.getMap() ? info.close() : info.open(map, marker);
-        });
+        new kakao.maps.InfoWindow({
+          content: '<div style="padding:8px 10px;font-size:13px;">한남대학교 무어아트홀<br><span style="color:#999;">(글로벌센터)</span></div>'
+        }).open(map, marker);
       });
-    })();
+    }
   </script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services&autoload=false"
+          onload="kakao.maps.load(initKakaoMap)"></script>
 </body>
 </html>
