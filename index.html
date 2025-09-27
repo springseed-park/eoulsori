@@ -41,134 +41,6 @@
     .nav a{padding:8px 12px;border-radius:10px;color:var(--text)}
     .nav a:hover{background:rgba(255,255,255,.08)}
 
-    /* 버튼 */
-    .btn{padding:12px 18px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-weight:700}
-    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#111}
-    .btn.secondary{background:#22274a;color:#fff;border:1px solid rgba(255,255,255,.12)}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-
-    /* 섹션 공통 */
-    section{padding:72px 20px;background:rgba(0,0,0,.68);margin:40px auto;width:min(1100px,92%);border-radius:16px;box-shadow:var(--shadow)}
-    h1,h2,h3{margin:0 0 12px}
-    .note{font-size:13px;color:var(--muted)}
-
-    /* Hero */
-    .hero{min-height:100svh;display:flex;align-items:center}
-    .hero .logo{width:min(160px,30vw);border-radius:50%;box-shadow:var(--shadow)}
-    .hero .badge{color:var(--brand-2);font-weight:800}
-    .hero h1{font-size:clamp(28px,4.5vw,54px)}
-    .hero .lead{color:var(--muted);margin:0 0 10px}
-    .cta{display:flex;gap:10px;flex-wrap:wrap}
-
-    /* D-Day: 단일 블럭 스타일 */
-    .countdown{
-      margin-top:20px;
-      padding:12px 18px;
-      background:rgba(255,255,255,.07);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:12px;
-      display:inline-block;
-      font-weight:700;
-      font-size:20px;
-    }
-    .countdown .label{
-      display:block;
-      font-size:13px;
-      font-weight:600;
-      color:var(--brand-2);
-      margin-bottom:4px;
-      text-align:center
-    }
-
-    /* Info */
-    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-    .info-item{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
-    .program table{width:100%;border-collapse:collapse}
-    .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
-    .program th{background:rgba(255,255,255,.06)}
-    .map-card iframe{width:100%;height:340px;border:0;border-radius:12px}
-
-    /* History & gallery */
-    .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
-    .timeline ul{list-style:none;margin:0;padding:0}
-    .timeline li{padding:12px 0;border-left:3px solid var(--brand);padding-left:12px;margin-left:6px}
-    .marquee{display:flex;gap:16px;overflow:hidden}
-    .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
-    .marquee img{width:320px;height:210px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
-    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-    /* Contact */
-    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-    form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#1b1f42;color:var(--text)}
-    textarea{min-height:120px}
-
-    footer{padding:26px 0;color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.08);background:rgba(14,17,48,.85)}
-
-    /* Modal */
-    .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
-    .modal[open]{display:flex}
-    .dialog{background:#222;padding:20px;border-radius:12px;max-width:720px;width:96%}
-    .dialog header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
-    .dialog h3{margin:0;color:var(--brand-2)}
-    .account{font-size:1.3em;font-weight:900;color:var(--accent);margin:8px 0}
-    .bank{font-weight:800;color:var(--brand)}
-    .qr-wrap{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-top:12px}
-    .qr-box{background:#111;padding:12px;border-radius:12px;display:inline-block;border:1px solid rgba(255,255,255,.12)}
-    .hidden{display:none!important}
-
-    /* 반응형 */
-    @media (max-width:900px){
-      .info-grid,.contact-grid{grid-template-columns:1fr}
-      form .row{grid-template-columns:1fr}
-      .qr-wrap{grid-template-columns:1fr}
-    }
-    <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>풍물놀이패 40주년 기념 행사</title>
-  <meta name="description" content="풍물놀이패 동아리 40주년 기념 행사 안내 및 참가 신청 페이지" />
-  <!-- CSS 파일 연결 -->
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    :root{
-      --bg:#0f1020;
-      --text:#e9ecf1;
-      --muted:#b8bed1;
-      --brand:#ff3b7b;
-      --brand-2:#ffc43b;
-      --accent:#3bd1ff;
-      --card:#14152a;
-      --radius:16px;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,"Noto Sans KR",sans-serif;
-      color:var(--text);
-      background:
-        url('pungmul-hero.jpg') center/cover no-repeat fixed,
-        linear-gradient(180deg,#0e0f1e,#11142b);
-    }
-    a{color:var(--accent);text-decoration:none}
-    img{max-width:100%;display:block}
-    .container{width:min(1100px,92%);margin:0 auto}
-
-    /* 헤더 */
-    header{position:sticky;top:0;z-index:50;background:rgba(15,16,32,.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-    .nav .brand{display:flex;gap:10px;align-items:center}
-    .brand img{width:40px;height:40px;object-fit:cover;border-radius:50%}
-    .brand span{font-weight:800;letter-spacing:.3px}
-    .nav ul{display:flex;gap:16px;list-style:none;margin:0;padding:0}
-    .nav a{padding:8px 12px;border-radius:10px;color:var(--text)}
-    .nav a:hover{background:rgba(255,255,255,.08)}
-
     /* 모바일에서 메뉴 숨김 */
     @media (max-width:768px){
       .nav ul{display:none}
@@ -220,7 +92,7 @@
     .program table{width:100%;border-collapse:collapse}
     .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
     .program th{background:rgba(255,255,255,.06)}
-    .map-card iframe{width:100%;height:340px;border:0;border-radius:12px}
+    .map-card #kakaoMap{width:100%;height:340px;border:0;border-radius:12px}
 
     /* History & gallery */
     .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
@@ -259,26 +131,7 @@
     }
     @media (max-width: 400px) {
       nav ul{display:none}
-
     }
-  </style>
-</head>
-<body>
-  <!-- 헤더 -->
-  <header>
-    <div class="container nav">
-      <div class="brand"><img src="logo.png" alt="동아리 로고"/><span>풍물놀이패 40주년</span></div>
-      <ul>
-        <li><a href="#home">홈</a></li>
-        <li><a href="#about">행사 안내</a></li>
-        <li><a href="#history">연혁 · 갤러리</a></li>
-        <li><a href="#contact">문의</a></li>
-      </ul>
-    </div>
-  </header>
-
-  <!-- 이하 동일 -->
-
   </style>
 </head>
 <body>
@@ -309,7 +162,7 @@
           <a class="btn ghost" href="#about">행사안내 보기</a>
         </div>
 
-        <!-- ✅ D-Day: 한 블럭 + 콜론 구분 -->
+        <!-- D-Day -->
         <div class="countdown" aria-live="polite">
           <span class="label">D-Day</span>
           <span id="dday">0</span>일  <span id="hours">00</span> : <span id="mins">00</span> : <span id="secs">00</span>
@@ -346,13 +199,15 @@
             </table>
           </div>
         </div>
+
+        <!-- ✅ 카카오 지도 카드 -->
         <div class="info-item map-card">
-          <iframe title="네이버 지도 - 대학아트홀" src="https://naver.me/5MVFBSMZ" loading="lazy"></iframe>
-          <div class="note" style="padding-top:8px">* 네이버 지도에서 "퍼가기" 코드로 교체하면 정확한 약도가 표시됩니다.</div>
+          <div id="kakaoMap" aria-label="한남대학교 무어아트홀 지도"></div>
+          <div class="note" style="padding-top:8px">
+            * 카카오 지도: 한남대학교 글로벌센터 무어아트홀(대전 대덕구 한남로18번길 11)
+          </div>
         </div>
       </div>
-
-      <!-- ❌ 참가비·후원 선택 섹션 삭제됨 -->
     </div>
   </section>
 
@@ -496,7 +351,6 @@
       </header>
       <div class="body">
         <div style="display:grid;gap:8px">
-          <!-- 금액 안내 문구 (요청사항) -->
           <p>후원 1구좌: <b>50,000원</b> · 참가비: <b>50,000원</b></p>
 
           <div class="account" id="accountNumber">123456-78-901234</div>
@@ -527,7 +381,7 @@
     const $ = (s, root=document) => root.querySelector(s);
     const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
 
-    // ✅ 과거 로컬 저장 잔여물 강제 청소
+    // 과거 로컬 저장 잔여물 강제 청소
     try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
 
     // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
@@ -644,10 +498,7 @@
       }
     });
 
-    /* ===================== 요금 선택(삭제됨에 따라 비활성) ===================== */
-    // 해당 섹션을 제거했으므로 관련 JS도 제거
-
-    /* ===================== 메일 전송(메일앱) ===================== */
+    /* 메일 전송(메일앱) */
     const mailForm = $('#mailForm');
     if(mailForm){
       mailForm.addEventListener('submit', (e)=>{
@@ -663,6 +514,54 @@
         location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
       });
     }
+  </script>
+
+  <!-- ✅ Kakao Maps SDK (services 포함) -->
+  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services"></script>
+  <script>
+    (function initKakaoMap(){
+      const ADDRESS = '대전 대덕구 한남로18번길 11'; // 한남대 글로벌센터 무어아트홀
+      const container = document.getElementById('kakaoMap');
+      if(!container) return;
+
+      // 지오코딩 실패 시 사용할 임시 좌표(캠퍼스 근처)
+      const fallbackLatLng = new kakao.maps.LatLng(36.3499, 127.3790);
+
+      const map = new kakao.maps.Map(container, {
+        center: fallbackLatLng,
+        level: 3
+      });
+
+      // 확대/축소 컨트롤
+      const zoomCtrl = new kakao.maps.ZoomControl();
+      map.addControl(zoomCtrl, kakao.maps.ControlPosition.RIGHT);
+
+      const geocoder = new kakao.maps.services.Geocoder();
+
+      geocoder.addressSearch(ADDRESS, function(result, status){
+        let position = fallbackLatLng;
+
+        if (status === kakao.maps.services.Status.OK && result && result.length){
+          position = new kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(position);
+        }
+
+        const marker = new kakao.maps.Marker({ position });
+        marker.setMap(map);
+
+        const info = new kakao.maps.InfoWindow({
+          content:
+            '<div style="padding:8px 10px;font-size:13px;">' +
+            '한남대학교 무어아트홀<br><span style="color:#999;">(글로벌센터 47동 2층)</span>' +
+            '</div>'
+        });
+        info.open(map, marker);
+
+        kakao.maps.event.addListener(marker, 'click', function(){
+          info.getMap() ? info.close() : info.open(map, marker);
+        });
+      });
+    })();
   </script>
 </body>
 </html>
