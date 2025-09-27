@@ -76,7 +76,7 @@
     .program table{width:100%;border-collapse:collapse}
     .program th,.program td{border:1px solid rgba(255,255,255,.12);padding:10px;text-align:left}
     .program th{background:rgba(255,255,255,.06)}
-    .map-card #kakaoMap{width:100%;height:340px;border:0;border-radius:12px}
+    .map-card #kakaoMap{width:100%;height:360px;border:0;border-radius:12px}
 
     /* History & gallery */
     .timeline{padding:18px;background:rgba(20,21,42,.7);border-radius:14px;border:1px solid rgba(255,255,255,.08)}
@@ -184,19 +184,13 @@
           </div>
         </div>
 
-        <!-- ✅ 카카오 지도 카드 -->
+        <!-- ✅ 카카오 지도 카드 (고정좌표 테스트) -->
         <div class="info-item map-card">
           <div id="kakaoMap" aria-label="한남대학교 무어아트홀 지도"></div>
           <div class="note" style="padding-top:8px">
-            * 카카오 지도: 한남대학교 글로벌센터 무어아트홀(대전 대덕구 한남로18번길 11)
+            * 카카오 지도(고정 좌표 테스트). 이후 지오코딩 재적용 가능.
           </div>
         </div>
-        <div class="info-item map-card">
-          <div id="kakaoMap"
-               style="width:100%;height:360px;border-radius:12px;outline:2px dashed rgba(255,255,255,.25)"></div>
-          <div class="note" style="padding-top:8px">* 카카오 지도 테스트(고정 좌표)</div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -307,231 +301,4 @@
           <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
             <div>
               <label>이메일(선택)</label>
-              <input type="email" name="email" />
-            </div>
-            <div>
-              <label>인원수</label>
-              <input type="number" name="count" min="1" value="1" required />
-            </div>
-          </div>
-          <div style="margin-top:10px">
-            <label>한마디(선택)</label>
-            <textarea name="msg" placeholder="동아리에게 전하고 싶은 말"></textarea>
-          </div>
-          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-            <button class="btn primary" type="submit" id="regSubmit">신청 완료</button>
-            <button class="btn ghost" type="button" id="testPing" title="시트 연결 테스트">연결 테스트</button>
-            <span class="note">* 신청 정보는 구글 시트에만 저장됩니다.</span>
-          </div>
-        </form>
-        <div style="padding:12px;margin-top:14px;background:rgba(20,21,42,.7);border-radius:12px;border:1px solid rgba(255,255,255,.08)">
-          <b>안내</b>
-          <p class="note" style="margin:6px 0 0">신청 정보는 구글 시트에만 저장됩니다. (브라우저 로컬 저장 안 함)</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 후원 계좌 모달 + QR -->
-  <div id="sponsorModal" class="modal" role="dialog" aria-modal="true">
-    <div class="dialog">
-      <header>
-        <h3>후원 계좌 안내</h3>
-        <button class="btn ghost" id="closeSponsor" aria-label="닫기">닫기</button>
-      </header>
-      <div class="body">
-        <div style="display:grid;gap:8px">
-          <p>후원 1구좌: <b>50,000원</b> · 참가비: <b>50,000원</b></p>
-
-          <div class="account" id="accountNumber">123456-78-901234</div>
-          <div class="bank" id="bankInfo">국민은행 · 예금주: 풍물놀이패</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn secondary" id="copyAccount">계좌번호 복사</button>
-            <button class="btn secondary" id="copyAll">전체 정보 복사</button>
-          </div>
-          <div class="qr-wrap">
-            <div class="qr-box">
-              <img id="qrImage" alt="QR 코드" width="220" height="220" />
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button class="btn primary" id="downloadQR">QR 이미지 다운로드</button>
-              <span class="note">* 은행 앱에서 QR 스캔 → ‘메모/이체’에 활용하세요.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* ===================== 사용자 설정 ===================== */
-    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzAkTilyUWeapEOT6yO3Swe1qmZDyI8yRwpcW-mcZdmN9ODJChbPxSlSxvUIiNyuy4V/exec';
-
-    /* ===================== 공통 유틸 ===================== */
-    const $ = (s, root=document) => root.querySelector(s);
-    const $$ = (s, root=document) => Array.from(root.querySelectorAll(s));
-
-    // 과거 로컬 저장 잔여물 강제 청소
-    try { localStorage.removeItem('pungmul40_registrations_v1'); } catch (e) {}
-
-    // 배경 이미지를 ?bg= 또는 #bg=로 교체 지원
-    (function setFixedBodyBackground(){
-      try{
-        const search = new URLSearchParams(location.search);
-        const hashParams = new URLSearchParams(location.hash.startsWith('#') ? location.hash.substring(1) : '');
-        const src = search.get('bg') || hashParams.get('bg');
-        if(src){
-          const test = new Image();
-          test.onload = function(){ document.body.style.backgroundImage = "url('"+ src.replace(/'/g,"\\'") +"')"; };
-          test.src = src;
-        }
-      }catch(e){}
-    })();
-
-    /* ===================== D-DAY (사파리 호환) ===================== */
-    (function(){
-      let eventMs = Date.parse('2026-05-30T00:00:00+09:00');
-      if (isNaN(eventMs)) {
-        eventMs = Date.parse('2026-05-29T15:00:00Z'); // 동일 시각(UTC)
-      }
-
-      const dEl = $('#dday');
-      const hEl = $('#hours');
-      const mEl = $('#mins');
-      const sEl = $('#secs');
-      if(!dEl || !hEl || !mEl || !sEl) return;
-
-      function tick(){
-        const now = Date.now();
-        let diff = Math.max(0, eventMs - now);
-        const d = Math.floor(diff / 86400000); diff -= d*86400000;
-        const h = Math.floor(diff / 3600000); diff -= h*3600000;
-        const m = Math.floor(diff / 60000); diff -= m*60000;
-        const s = Math.floor(diff / 1000);
-
-        dEl.textContent = d;
-        hEl.textContent = String(h).padStart(2,'0');
-        mEl.textContent = String(m).padStart(2,'0');
-        sEl.textContent = String(s).padStart(2,'0');
-      }
-      tick();
-      setInterval(tick, 1000);
-    })();
-
-    /* ===================== 모달 ===================== */
-    const regModal = $('#regModal');
-    const sponsorModal = $('#sponsorModal');
-    $('#openReg').addEventListener('click', ()=> regModal.setAttribute('open',''));
-    $('#closeReg').addEventListener('click', ()=> regModal.removeAttribute('open'));
-    regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.removeAttribute('open'); });
-
-    $('#openSponsor').addEventListener('click', ()=> sponsorModal.setAttribute('open',''));
-    $('#closeSponsor').addEventListener('click', ()=> sponsorModal.removeAttribute('open'));
-    sponsorModal.addEventListener('click', (e)=>{ if(e.target.id==='sponsorModal') sponsorModal.removeAttribute('open'); });
-
-    /* ===================== 후원 QR/복사 ===================== */
-    const acctEl = $('#accountNumber');
-    const bankEl = $('#bankInfo');
-    const qrImg = $('#qrImage');
-
-    function refreshQR(){
-      const payload = acctEl.textContent.trim() + ' | ' + bankEl.textContent.trim();
-      const url = 'https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=' + encodeURIComponent(payload);
-      qrImg.src = url;
-      qrImg.alt = 'QR: ' + payload;
-    }
-    refreshQR();
-
-    $('#copyAccount').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(acctEl.textContent.trim()); alert('계좌번호가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
-    });
-    $('#copyAll').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(acctEl.textContent.trim() + ' / ' + bankEl.textContent.trim()); alert('전체 정보가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
-    });
-    $('#downloadQR').addEventListener('click', ()=>{
-      const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
-    });
-
-    /* ===================== 참가 신청 (구글 시트 저장) ===================== */
-    $('#regForm').addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const submitBtn = $('#regSubmit');
-      const fd = new FormData(e.target);
-
-      const body = new URLSearchParams({
-        name:  String(fd.get('name') || '').trim(),
-        phone: String(fd.get('phone')|| '').trim(),
-        email: String(fd.get('email')|| '').trim(),
-        count: String(Math.max(1, Number(fd.get('count'))||1)),
-        msg:   String(fd.get('msg')  || '').trim(),
-        ts:    new Date().toISOString()
-      });
-
-      if(!SHEET_ENDPOINT){ alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음'); return; }
-
-      try {
-        submitBtn.disabled = true;
-        submitBtn.textContent = '전송 중...';
-
-        const res = await fetch(SHEET_ENDPOINT, { method: 'POST', body });
-        try { console.log('[GAS] response:', await res.clone().text()); } catch(_) {}
-
-        alert('신청이 접수되었습니다. 감사합니다!');
-        e.target.reset();
-        regModal.removeAttribute('open');
-      } catch (err) {
-        console.error(err);
-        alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인)');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = '신청 완료';
-      }
-    });
-
-    /* 메일 전송(메일앱) */
-    const mailForm = $('#mailForm');
-    if(mailForm){
-      mailForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const fd = new FormData(e.target);
-        const to = $('#contactEmail').textContent.trim();
-        const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님');
-        const body = encodeURIComponent(
-          '이름: ' + (fd.get('name')||'') + '\n' +
-          '이메일: ' + (fd.get('email')||'') + '\n\n' +
-          '내용:\n' + (fd.get('message')||'')
-        );
-        location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
-      });
-    }
-  </script>
-  <script>
-  function initKakaoMap() {
-    // 1) kakao 객체 확인
-    if (!window.kakao || !kakao.maps) { console.error('Kakao SDK not loaded'); return; }
-
-    // 2) 엘리먼트/사이즈 확인
-    const el = document.getElementById('kakaoMap');
-    if (!el) { console.error('#kakaoMap not found'); return; }
-    console.log('map size:', el.offsetWidth, el.offsetHeight);
-
-    // 3) 지오코딩 없이 고정 좌표로 먼저 렌더 (한남대 근처)
-    const POS = new kakao.maps.LatLng(36.3499, 127.3790);
-
-    const map = new kakao.maps.Map(el, { center: POS, level: 3 });
-    const marker = new kakao.maps.Marker({ position: POS });
-    marker.setMap(map);
-
-    new kakao.maps.InfoWindow({
-      content: '<div style="padding:6px 10px;font-size:13px;">무어아트홀 근처(고정좌표)</div>'
-    }).open(map, marker);
-
-    kakao.maps.event.addListener(map, 'tilesloaded', () => {
-      console.log('tilesloaded: 지도 타일 로드 완료');
-    });
-  }
-</script>
-<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false"
-        onload="kakao.maps.load(initKakaoMap)"></script>
-</body>
-</html>
+              <input ty
