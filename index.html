@@ -85,9 +85,7 @@
     .marquee{display:flex;gap:16px;overflow:hidden}
     .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
     .marquee img{width:320px;height:210px;object-fit:cover;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
-    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}
-
-    }
+    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
     /* Contact */
     .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
@@ -482,42 +480,76 @@
       });
     }
 
-    /* ===================== 지도: 지오코딩 + 마커 클릭 길찾기 ===================== */
+    /* ===================== 지도: 무어아트홀 정확 지정 (키워드 + 옵션 고정) ===================== */
     function initKakaoMap() {
       if (!window.kakao || !kakao.maps) return;
+
       const el = document.getElementById('kakaoMap');
       if (!el) return;
 
-      const fallback = new kakao.maps.LatLng(36.3499, 127.3790); // 캠퍼스 근처
+      // ▼ 필요하면 여기에 '완전 고정 좌표'를 넣어 검색을 건너뛸 수 있음
+      const EXACT_LAT = null;   // 예: 36.351234
+      const EXACT_LNG = null;   // 예: 127.422345
+
+      const fallback = new kakao.maps.LatLng(36.3499, 127.3790); // 캠퍼스 근처(초기 중심)
       const map = new kakao.maps.Map(el, { center: fallback, level: 3 });
       map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 
+      if (typeof EXACT_LAT === 'number' && typeof EXACT_LNG === 'number') {
+        const pos = new kakao.maps.LatLng(EXACT_LAT, EXACT_LNG);
+        placeMarkerAndInfo(map, pos, '한남대학교 무어아트홀');
+        return;
+      }
+
       const geocoder = new kakao.maps.services.Geocoder();
-      const PLACE = '한남대학교 무어아트홀';
-      const ADDRESS = '대전 대덕구 한남로18번길 11';
+      const places = new kakao.maps.services.Places();
 
-      geocoder.addressSearch(ADDRESS, (result, status) => {
-        let pos = fallback;
-        if (status === kakao.maps.services.Status.OK && result?.length) {
-          pos = new kakao.maps.LatLng(result[0].y, result[0].x);
-          map.setCenter(pos);
-        } else {
-          console.warn('[MAP] geocode fail:', status, result);
+      const KEYWORD = '한남대학교 글로벌센터 무어아트홀';
+      places.keywordSearch(
+        KEYWORD,
+        (data, status) => {
+          if (status !== kakao.maps.services.Status.OK || !data?.length) {
+            console.warn('[MAP] keywordSearch fail:', status, data);
+            // 예비: 주소 지오코딩
+            const ADDRESS = '대전 대덕구 한남로18번길 11';
+            geocoder.addressSearch(ADDRESS, (r, s) => {
+              const pos = (s === kakao.maps.services.Status.OK && r?.length)
+                ? new kakao.maps.LatLng(r[0].y, r[0].x)
+                : fallback;
+              placeMarkerAndInfo(map, pos, '한남대학교 무어아트홀');
+            });
+            return;
+          }
+
+          const withHall = data.filter(d => /무어아트홀/.test(d.place_name));
+          const pick = (withHall[0] || data[0]);
+          const pos = new kakao.maps.LatLng(pick.y, pick.x);
+
+          placeMarkerAndInfo(map, pos, pick.place_name || '한남대학교 무어아트홀');
+        },
+        {
+          location: fallback,
+          radius: 3000,
+          size: 10
         }
+      );
+    }
 
-        const marker = new kakao.maps.Marker({ position: pos });
-        marker.setMap(map);
+    function placeMarkerAndInfo(map, pos, title) {
+      map.setCenter(pos);
 
-        new kakao.maps.InfoWindow({
-          content: '<div style="padding:8px 10px;font-size:13px;">'+PLACE+'<br><span style="color:#999;">(글로벌센터)</span></div>'
-        }).open(map, marker);
+      const marker = new kakao.maps.Marker({ position: pos });
+      marker.setMap(map);
 
-        // ✅ 마커 클릭 → 카카오 길찾기 새창
-        kakao.maps.event.addListener(marker,'click',()=>{
-          const name = encodeURIComponent(PLACE);
-          const url = 'https://map.kakao.com/link/to/' + name + ',' + pos.getLat() + ',' + pos.getLng();
-          window.open(url,'_blank','noopener');
-        });
+      new kakao.maps.InfoWindow({
+        content: `<div style="padding:8px 10px;font-size:13px;">${title}</div>`
+      }).open(map, marker);
+
+      // 마커 클릭 → 카카오 길찾기
+      kakao.maps.event.addListener(marker, 'click', () => {
+        const name = encodeURIComponent(title);
+        const url = `https://map.kakao.com/link/to/${name},${pos.getLat()},${pos.getLng()}`;
+        window.open(url, '_blank', 'noopener');
       });
     }
 
