@@ -517,7 +517,8 @@
   </script>
 
   <!-- ✅ Kakao Maps SDK (services 포함) -->
-  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services"></script>
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services&autoload=false"
+        onload="kakao.maps.load(initKakaoMap)"></script>
   <script>
     (function initKakaoMap(){
       const ADDRESS = '대전 대덕구 한남로18번길 11'; // 한남대 글로벌센터 무어아트홀
