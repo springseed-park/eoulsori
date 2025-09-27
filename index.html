@@ -113,7 +113,9 @@
       form .row{grid-template-columns:1fr}
       .qr-wrap{grid-template-columns:1fr}
     }
-    @media (max-width: 400px) { nav ul{display:none} }
+    @media (max-width: 400px) { 
+      nav ul{display:none}
+    }
   </style>
 </head>
 <body>
@@ -184,30 +186,12 @@
 
         <!-- 카카오 지도 -->
         <div class="info-item map-card">
-          <div id="kakaoMap" aria-label="한남대학교 무어아트홀 지도"></div>
+          <div id="daumRoughmapContainer1758955056424" class="root_daum_roughmap root_daum_roughmap_landing"></div>
           <div class="note" style="padding-top:8px">
             * 마커를 클릭하면 카카오 길찾기가 새 창으로 열립니다.
           </div>
         </div>
-        <!-- * 카카오맵 - 지도퍼가기 -->
-        <!-- 1. 지도 노드 -->
-        <div id="daumRoughmapContainer1758955056424" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-        
-        <!--
-        	2. 설치 스크립트
-        	* 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
-        -->
-        <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
-        
-        <!-- 3. 실행 스크립트 -->
-        <script charset="UTF-8">
-        	new daum.roughmap.Lander({
-        		"timestamp" : "1758955056424",
-        		"key" : "9ttv8jh4qs4",
-        		"mapWidth" : "640",
-        		"mapHeight" : "360"
-        	}).render();
-        </script>
+
       </div>
     </div>
   </section>
@@ -499,88 +483,18 @@
       });
     }
 
-    /* ===================== 지도: 무어아트홀 정확 지정 (키워드 + 옵션 고정) ===================== */
-    function initKakaoMap() {
-      if (!window.kakao || !kakao.maps) return;
-
-      const el = document.getElementById('kakaoMap');
-      if (!el) return;
-
-      // ▼ 필요하면 여기에 '완전 고정 좌표'를 넣어 검색을 건너뛸 수 있음
-      const EXACT_LAT = null;   // 예: 36.351234
-      const EXACT_LNG = null;   // 예: 127.422345
-
-      const fallback = new kakao.maps.LatLng(36.3499, 127.3790); // 캠퍼스 근처(초기 중심)
-      const map = new kakao.maps.Map(el, { center: fallback, level: 3 });
-      map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-
-      if (typeof EXACT_LAT === 'number' && typeof EXACT_LNG === 'number') {
-        const pos = new kakao.maps.LatLng(EXACT_LAT, EXACT_LNG);
-        placeMarkerAndInfo(map, pos, '한남대학교 무어아트홀');
-        return;
-      }
-
-      const geocoder = new kakao.maps.services.Geocoder();
-      const places = new kakao.maps.services.Places();
-
-      const KEYWORD = '한남대학교 글로벌센터 무어아트홀';
-      places.keywordSearch(
-        KEYWORD,
-        (data, status) => {
-          if (status !== kakao.maps.services.Status.OK || !data?.length) {
-            console.warn('[MAP] keywordSearch fail:', status, data);
-            // 예비: 주소 지오코딩
-            const ADDRESS = '대전 대덕구 한남로18번길 11';
-            geocoder.addressSearch(ADDRESS, (r, s) => {
-              const pos = (s === kakao.maps.services.Status.OK && r?.length)
-                ? new kakao.maps.LatLng(r[0].y, r[0].x)
-                : fallback;
-              placeMarkerAndInfo(map, pos, '한남대학교 무어아트홀');
-            });
-            return;
-          }
-
-          const withHall = data.filter(d => /무어아트홀/.test(d.place_name));
-          const pick = (withHall[0] || data[0]);
-          const pos = new kakao.maps.LatLng(pick.y, pick.x);
-
-          placeMarkerAndInfo(map, pos, pick.place_name || '한남대학교 무어아트홀');
-        },
-        {
-          location: fallback,
-          radius: 3000,
-          size: 10
-        }
-      );
-    }
-
-    function placeMarkerAndInfo(map, pos, title) {
-      map.setCenter(pos);
-
-      const marker = new kakao.maps.Marker({ position: pos });
-      marker.setMap(map);
-
-      new kakao.maps.InfoWindow({
-        content: `<div style="padding:8px 10px;font-size:13px;">${title}</div>`
-      }).open(map, marker);
-
-      // 마커 클릭 → 카카오 길찾기
-      kakao.maps.event.addListener(marker, 'click', () => {
-        const name = encodeURIComponent(title);
-        const url = `https://map.kakao.com/link/to/${name},${pos.getLat()},${pos.getLng()}`;
-        window.open(url, '_blank', 'noopener');
-      });
-    }
-
-    // Kakao SDK 동적 주입 (services 포함)
-    (function injectKakaoSDK(){
-      var s = document.createElement('script');
-      s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&autoload=false&libraries=services';
-      s.async = true;
-      s.onload = function(){ kakao.maps.load(initKakaoMap); };
-      s.onerror = function(){ console.error('[SDK] load error'); };
-      document.head.appendChild(s);
-    })();
+            <!-- 카카오 지도 -->
+        <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+        
+        <!--  실행 스크립트 -->
+        <script charset="UTF-8">
+        	new daum.roughmap.Lander({
+        		"timestamp" : "1758955056424",
+        		"key" : "9ttv8jh4qs4",
+        		"mapWidth" : "360",
+        		"mapHeight" : "360"
+        	}).render();
+        </script>
   </script>
 </body>
 </html>
