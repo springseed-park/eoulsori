@@ -505,47 +505,6 @@
       });
     }
   </script>
-
-  <!-- ✅ Kakao Maps SDK (autoload=false) + 지도 초기화 
-  <script>
-    function initKakaoMap(){
-      const container = document.getElementById('kakaoMap');
-      if(!container) return;
-
-      // 지오코딩 실패 대비 기본 좌표(캠퍼스 근처)
-      const fallback = new kakao.maps.LatLng(36.3499, 127.3790);
-
-      const map = new kakao.maps.Map(container, {
-        center: fallback,
-        level: 3
-      });
-
-      // 확대/축소 컨트롤
-      map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-
-      // 주소 → 좌표
-      const geocoder = new kakao.maps.services.Geocoder();
-      const ADDRESS = '대전 대덕구 한남로18번길 11'; // 무어아트홀 주소
-      geocoder.addressSearch(ADDRESS, (result, status) => {
-        let pos = fallback;
-        if (status === kakao.maps.services.Status.OK && result?.length){
-          pos = new kakao.maps.LatLng(result[0].y, result[0].x);
-          map.setCenter(pos);
-        } else {
-          console.warn('지오코딩 실패:', status, result);
-        }
-
-        const marker = new kakao.maps.Marker({ position: pos });
-        marker.setMap(map);
-
-        new kakao.maps.InfoWindow({
-          content: '<div style="padding:8px 10px;font-size:13px;">한남대학교 무어아트홀<br><span style="color:#999;">(글로벌센터)</span></div>'
-        }).open(map, marker);
-      });
-    }
-  </script>
-  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=43e762453f634419a2292567a27bd0aa&libraries=services&autoload=false"
-          onload="kakao.maps.load(initKakaoMap)"></script>-->
   <script>
   function initKakaoMap() {
     // 1) kakao 객체 확인
