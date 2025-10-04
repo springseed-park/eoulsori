@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>한남대학교 풍물놀이패 '어울소리' 창립 40주년 기념 행사</title>
+  <title>어울소리 40주년 — 스크롤업 시 탭 고정</title>
   <meta name="description" content="한남대학교 풍물놀이패 '어울소리' 창립 40주년 기념 행사 안내 및 참가 신청 페이지" />
   <style>
     :root{
@@ -11,56 +11,41 @@
       --brand-2:#ff7a59;
       --accent:#0ea5e9;
       --hair:#eef0f3;
-      --muted:#6b7280;
-      --text:#111;
+      --muted:#9aa0a6;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,"Noto Sans KR",sans-serif;
-      color:var(--text);
-      background: linear-gradient(180deg,#fff,#fafbfc 40%,#f7f8fa 100%);
+      color:#fff;
+      background:#1f1f21;
     }
-    a{color:#0f6fda;text-decoration:none}
+    a{color:#93c5fd;text-decoration:none}
     img{max-width:100%;display:block}
     .container{width:min(1180px,92%);margin:0 auto}
 
-    /* ====== HERO: Bugs 20th dark style ====== */
-    #home{border:none;box-shadow:none;margin:0;padding:0;background:none}
-    .hero-wrap{
-      position:relative;
+    /* ===== HERO dark ===== */
+    #home{border:none;margin:0;padding:0;background:none}
+    .hero-wrap{position:relative; color:#fff; overflow:hidden;
       background:
         radial-gradient(800px 300px at 80% -10%, rgba(255,255,255,.08), transparent 70%),
         radial-gradient(500px 200px at 10% 20%, rgba(255,255,255,.06), transparent 70%),
         radial-gradient(700px 260px at 50% 120%, rgba(255,255,255,.05), transparent 70%),
         #1f1f21;
-      color:#fff;
-      overflow:hidden;
-    }
-    .hero-deco{
-      position:absolute; inset:0; pointer-events:none;
-      background-image:
-        radial-gradient( circle at 8% 80%, rgba(255,255,255,.12) 2px, transparent 3px ),
-        radial-gradient( circle at 92% 10%, rgba(255,255,255,.08) 3px, transparent 4px );
-      background-repeat:no-repeat;
     }
     .hero-inner{padding:64px 0 0}
     .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center}
     @media (max-width:980px){ .hero-grid{grid-template-columns:1fr} }
-    .hero-copy .badge{font-weight:700; color:#ddd; opacity:.9; margin-bottom:10px}
-    .hero-copy h2{margin:0; font-size:18px; line-height:1.6; color:#e5e7eb; font-weight:600}
-    .hero-20{display:flex; align-items:flex-end; gap:22px; margin-top:18px}
-    .hero-20 svg{width:min(520px,40vw); height:auto}
-    .hero-title{font-weight:900; font-size:clamp(28px,4.8vw,54px); line-height:1.08; letter-spacing:-.01em}
-    .anniv-script{font-family:"Pretendard",system-ui; font-style:italic; color:#ff4d6d; font-weight:700; font-size:clamp(16px,2.2vw,28px)}
+    .badge{opacity:.9; margin-bottom:10px}
+    .anniv-script{color:#ff4d6d; font-weight:700; font-size:clamp(16px,2.2vw,28px)}
+    .hero-title{font-weight:900; font-size:clamp(28px,4.8vw,54px); line-height:1.08}
 
     .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
     .btn{padding:12px 18px;border-radius:12px;border:1px solid rgba(255,255,255,.15);cursor:pointer;font-weight:800}
     .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#fff;border:none}
     .btn.secondary{background:transparent; color:#fff}
 
-    /* right panel */
     .hero-panel{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius:18px; padding:18px; backdrop-filter: blur(4px)}
     .metric{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end;margin:4px 0 10px}
     .metric b{font-size:26px;line-height:1}
@@ -68,50 +53,43 @@
     .countdown{margin-top:6px;padding:10px 12px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:12px;display:inline-block;font-weight:800;font-size:18px;color:#fff}
     .countdown .label{display:block;font-size:12px;font-weight:700;color:#ffd166;margin-bottom:2px;text-align:center}
 
-    /* funding bar (view-only) */
     .fund-card{margin-top:10px;padding:12px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);border-radius:14px}
     .bar-bg{width:100%;height:16px;background:rgba(255,255,255,.16);border-radius:999px;overflow:hidden}
     .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0%;transition:width .9s ease}
     .bar-text{margin-top:6px;font-size:13px;text-align:right;color:#e5e7eb}
 
-    /* ====== bottom hero tabs ====== */
-    .hero-tabs{
-      margin-top:48px;
-      background:#0b0b0c;
-      border-top:1px solid rgba(255,255,255,.08);
-      border-bottom:1px solid rgba(255,255,255,.08);
-
-      position:sticky;   /* 스크롤 시 상단 고정 */
-      top:0;             /* 화면 최상단 위치 */
-      z-index:999;       /* 다른 요소 위에 보이도록 */
-    }
+    /* ===== Hero bottom tabs (in-place) ===== */
+    .hero-tabs{ margin-top:48px; background:#0b0b0c; border-top:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.08); }
     .tabs{display:grid;grid-template-columns:repeat(4,1fr)}
-    .tab{
-      position:relative;
-      display:flex; align-items:center; justify-content:center;
-      height:68px; color:#7b7f87; font-weight:800; letter-spacing:.02em;
-      border-right:1px solid rgba(255,255,255,.08);
-      text-decoration:none;
-    }
+    .tab{position:relative; display:flex; align-items:center; justify-content:center; height:68px; color:#7b7f87; font-weight:800; letter-spacing:.02em; border-right:1px solid rgba(255,255,255,.08); text-decoration:none;}
     .tab:last-child{border-right:none}
-    .tab.active{
-      background:linear-gradient(90deg,var(--brand),var(--brand-2));
-      color:#fff;
-    }
+    .tab.active{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#fff;}
 
-    /* ====== sections (light cards) ====== */
-    section.card{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:0 12px 30px rgba(16,24,40,.08);margin:42px auto;padding:48px 24px}
-    h2{font-size:clamp(22px,3.2vw,34px);letter-spacing:-.01em;margin:0 0 6px}
-    .note{font-size:13px;color:var(--muted);margin:0 0 10px}
+    /* ===== Scroll-up docked tabs (fixed; hidden until scroll up) ===== */
+    .tabs-dock{
+      position:fixed; left:0; right:0; top:0;
+      background:#0b0b0c; border-bottom:1px solid rgba(255,255,255,.08);
+      transform:translateY(-100%);
+      transition:transform .28s ease;
+      z-index:999;
+    }
+    .tabs-dock .tabs{ max-width:1180px; margin:0 auto; width:92%; }
+    .tabs-dock .tab{ height:58px; }
+
+    .tabs-dock.show{ transform:translateY(0); }
+
+    /* ===== Cards / sections ===== */
+    section.card{background:#fff;color:#111;border:1px solid #e5e7eb;border-radius:20px;box-shadow:0 12px 30px rgba(16,24,40,.08);margin:42px auto;padding:48px 24px}
+    h2{font-size:clamp(22px,3.2vw,34px);letter-spacing:-.01em;margin:0 0 6px;color:#111}
+    .note{font-size:13px;color:#6b7280;margin:0 0 10px}
     .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
     @media (max-width:980px){ .info-grid{grid-template-columns:1fr} }
-    .info-item{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid var(--hair)}
+    .info-item{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid #e5e7eb}
     .program table{width:100%;border-collapse:collapse}
     .program th,.program td{border:1px solid #eaeef3;padding:10px;text-align:left}
     .program th{background:#f1f5f9}
 
-    /* Timeline & gallery (unchanged structure) */
-    .timeline{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid var(--hair)}
+    .timeline{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid #e5e7eb}
     .timeline ul{list-style:none;margin:0;padding:0}
     .timeline li{position:relative;margin:0;padding:14px 0 14px 22px;border:0;color:#111}
     .timeline li::before{content:"";position:absolute;left:8px;top:24px;bottom:-24px;width:2px;background:#e5e7eb}
@@ -129,51 +107,24 @@
     input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;color:#111}
     textarea{min-height:120px}
 
-    footer{padding:24px 0;color:#6b7280;text-align:center;border-top:1px solid var(--hair);background:#fff}
+    footer{padding:24px 0;color:#9aa0a6;text-align:center;border-top:1px solid #2b2b2e;background:#1f1f21}
   </style>
 </head>
 <body>
   <!-- HERO -->
   <section id="home">
     <div class="hero-wrap">
-      <div class="hero-deco"></div>
       <div class="container hero-inner">
         <div class="hero-grid">
-          <div class="hero-copy">
-            <div class="badge">Thanks for 40 years</div>
-            <div style="display:grid;gap:8px;align-items:center;grid-template-columns:1fr;">
-              <div class="hero-20">
-                <!-- SVG '20' lockup -->
-                <svg viewBox="0 0 920 360" role="img" aria-label="20 어울소리">
-                  <defs>
-                    <linearGradient id="g" x1="0" x2="1">
-                      <stop offset="0" stop-color="#ff2d55"/>
-                      <stop offset="1" stop-color="#ff7a59"/>
-                    </linearGradient>
-                  </defs>
-                  <!-- 2 -->
-                  <path d="M110 310 L270 110 A110 110 0 1 0 90 110 L90 110 A110 110 0 0 1 270 110 L110 310 Z"
-                        fill="#fff"/>
-                  <!-- 0 -->
-                  <circle cx="520" cy="160" r="140" fill="#fff"/>
-                  <circle cx="520" cy="160" r="72" fill="#1f1f21"/>
-                  <!-- inner hole for '2' -->
-                  <circle cx="210" cy="110" r="60" fill="#1f1f21"/>
-                </svg>
-                <div>
-                  <div class="anniv-script">40th Anniversary</div>
-                  <div class="hero-title">함께한 40년,<br/>그리고 앞으로<br/>함께할 모든 날들</div>
-                  <div style="margin-top:10px;color:#cbd5e1;font-weight:700">1990-2030 Eoulsori 40th</div>
-                </div>
-              </div>
-            </div>
-            <div class="cta">
+          <div>
+            <div class="badge">40th Anniversary</div>
+            <div class="anniv-script">함께한 40년</div>
+            <div class="hero-title">그리고 앞으로<br/>함께할 모든 날들</div>
+            <div class="cta" style="margin-top:12px">
               <button class="btn primary" id="openReg">참가신청하기</button>
               <button class="btn secondary" id="openSponsor">후원하기</button>
             </div>
           </div>
-
-          <!-- Right summary panel -->
           <aside class="hero-panel">
             <div class="metric"><span>목표</span><b>10,000,000원</b></div>
             <div class="fund-card">
@@ -192,7 +143,7 @@
         </div>
       </div>
 
-      <!-- bottom tabs -->
+      <!-- bottom tabs (in-place) -->
       <div class="hero-tabs">
         <div class="container tabs">
           <a class="tab active" href="#history">함께한 기록</a>
@@ -203,6 +154,16 @@
       </div>
     </div>
   </section>
+
+  <!-- Fixed dock that appears only on scroll UP -->
+  <div id="tabsDock" class="tabs-dock" aria-hidden="true">
+    <div class="tabs">
+      <a class="tab active" href="#history">함께한 기록</a>
+      <a class="tab" href="#about">행사 안내</a>
+      <a class="tab" href="#contact">이벤트/문의</a>
+      <a class="tab" href="#home">VIP & 안내</a>
+    </div>
+  </div>
 
   <!-- ABOUT -->
   <section id="about" class="card">
@@ -233,7 +194,6 @@
           </div>
         </div>
 
-        <!-- Kakao Map -->
         <div class="info-item">
           <div id="daumRoughmapContainer1758955056424" class="root_daum_roughmap root_daum_roughmap_landing"></div>
           <div class="note" style="padding-top:8px">* 마커를 클릭하면 카카오 길찾기가 새 창으로 열립니다.</div>
@@ -258,23 +218,6 @@
           <li><b>2026</b> 창립 40주년 기념 한마당</li>
         </ul>
       </div>
-
-      <h3 style="margin:24px 0 10px">갤러리</h3>
-      <div class="marquee">
-        <div class="track">
-          <img src="gallery1.jpg" alt="공연 사진 1" />
-          <img src="gallery2.jpg" alt="공연 사진 2" />
-          <img src="gallery3.jpg" alt="공연 사진 3" />
-          <img src="gallery4.jpg" alt="공연 사진 4" />
-          <img src="gallery5.jpg" alt="공연 사진 5" />
-          <img src="gallery1.jpg" alt="공연 사진 1" />
-          <img src="gallery2.jpg" alt="공연 사진 2" />
-          <img src="gallery3.jpg" alt="공연 사진 3" />
-          <img src="gallery4.jpg" alt="공연 사진 4" />
-          <img src="gallery5.jpg" alt="공연 사진 5" />
-        </div>
-      </div>
-      <p class="note" style="margin-top:8px">* 이미지 파일(gallery1~5.jpg)을 교체하세요. 자동 슬라이드(무한 루프)입니다.</p>
     </div>
   </section>
 
@@ -286,7 +229,7 @@
       <div class="contact-grid">
         <div class="info-item" style="background:#fff">
           <h3 style="margin:0 0 6px">담당자</h3>
-          <p style="margin:0 0 10px">
+          <p style="margin:0 0 10px; color:#111">
             이메일: <a id="contactEmail" href="mailto:pungmul40@example.com">pungmul40@example.com</a><br/>
             연락처: <a href="tel:01012345678">010-1234-5678</a><br/>
             인스타그램: <a href="https://instagram.com/pungmul_official" target="_blank" rel="noopener">@pungmul_official</a>
@@ -295,9 +238,9 @@
         </div>
 
         <div class="info-item" style="background:#fff">
-          <h3 style="margin:0 0 6px">메일 보내기</h3>
+          <h3 style="margin:0 0 6px; color:#111">메일 보내기</h3>
           <form id="mailForm">
-            <div class="row">
+            <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
               <div>
                 <label>이름</label>
                 <input type="text" name="name" required />
@@ -423,7 +366,33 @@
       tick(); setInterval(tick, 1000);
     })();
 
-    /* 모달 */
+    /* Scroll-up detection for tabsDock */
+    (function(){
+      const dock = document.getElementById('tabsDock');
+      let lastY = window.scrollY;
+      let ticking = false;
+      function onScroll(){
+        const y = window.scrollY;
+        const dirUp = y < lastY - 4;       // scroll up threshold
+        const dirDown = y > lastY + 4;     // scroll down threshold
+        const pastHero = y > 140;          // start showing once past hero top area
+        if (dirUp && pastHero){
+          dock.classList.add('show');
+        } else if (dirDown || !pastHero){
+          dock.classList.remove('show');
+        }
+        lastY = y;
+        ticking = false;
+      }
+      window.addEventListener('scroll', ()=>{
+        if(!ticking){
+          window.requestAnimationFrame(onScroll);
+          ticking = true;
+        }
+      }, {passive:true});
+    })();
+
+    /* Modals */
     const regModal = $('#regModal');
     const sponsorModal = $('#sponsorModal');
     document.getElementById('openReg').addEventListener('click', ()=> regModal.style.display='flex');
