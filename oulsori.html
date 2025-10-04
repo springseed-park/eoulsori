@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>한남대학교 풍물놀이패 '어울소리' 창립 40주년 기념 행사</title>
+  <meta name="description" content="한남대학교 풍물놀이패 '어울소리' 창립 40주년 기념 행사 안내 및 참가 신청 페이지" />
+  <style>
+    /* ===================== Base tokens ===================== */
+    :root{
+      --text:#111213;
+      --muted:#6b7280;
+      --brand:#ff2d55;    /* Bugs-ish pink-red */
+      --brand-2:#ffc043;  /* warm yellow */
+      --accent:#0ea5e9;   /* light blue */
+      --card:#ffffff;
+      --radius:16px;
+      --shadow:0 12px 30px rgba(16,24,40,.08);
+      --hair:#eef0f3;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Pretendard,"Noto Sans KR",sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg,#fff,#fafbfc 40%,#f7f8fa 100%);
+    }
+    a{color:#0f6fda;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1180px,92%);margin:0 auto}
+
+    /* ===================== Hero (no header) ===================== */
+    .hero{padding:56px 0 20px;background:radial-gradient(1200px 600px at 20% 0%, #fff 0%, #fafbfc 60%, rgba(255,255,255,0) 100%)}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:end}
+    @media (max-width:980px){ .hero-grid{grid-template-columns:1fr} }
+    .badge{color:#ff7a59;letter-spacing:.06em;text-transform:uppercase;font-weight:800}
+    h1{font-size:clamp(36px,7vw,72px);line-height:1.05;letter-spacing:-.02em;margin:4px 0 10px}
+    .lead{color:#374151;font-weight:600;margin:0 0 14px}
+    .cta{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{padding:12px 18px;border:0;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-weight:800}
+    .btn.primary{background:linear-gradient(90deg,var(--brand),#ff7a59);color:#fff}
+    .btn.secondary{background:#fff;color:#111;border:1px solid #e5e7eb}
+    .btn.ghost{background:#fff;border:1px solid #e5e7eb;color:#374151}
+
+    /* Right summary panel */
+    .hero-panel{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--shadow);padding:18px}
+    .metric{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:end;margin:4px 0 10px}
+    .metric b{font-size:28px;line-height:1}
+    .metric span{color:#6b7280}
+    .countdown{margin-top:6px;padding:10px 12px;background:#fff;border:1px solid var(--hair);border-radius:12px;display:inline-block;font-weight:800;font-size:18px}
+    .countdown .label{display:block;font-size:12px;font-weight:700;color:var(--brand-2);margin-bottom:2px;text-align:center}
+
+    /* View-only funding bar */
+    .fund-card{margin-top:10px;padding:12px;background:#fff;border:1px solid var(--hair);border-radius:14px}
+    .bar-bg{width:100%;height:18px;background:#eef2f7;border-radius:999px;overflow:hidden}
+    .bar-fill{height:100%;background:linear-gradient(90deg,var(--brand),#ff7a59);width:0%;transition:width .9s ease}
+    .bar-text{margin-top:6px;font-size:14px;text-align:right;color:#6b7280}
+
+    /* ===================== Section menu (chips) ===================== */
+    .section-menu{margin:20px 0 0; display:flex; gap:10px; flex-wrap:wrap}
+    .menu-chip{display:inline-block; padding:10px 16px; border-radius:999px; background:#f3f4f6; color:#111; border:1px solid #e5e7eb; font-weight:800}
+    .menu-chip:is(:hover,:focus){ background:#eef2f7 }
+    /* Sticky bar that appears below hero when scrolling */
+    .sticky-menu{position:sticky; top:0; z-index:40; background:rgba(255,255,255,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--hair)}
+    .sticky-menu .container{display:flex; gap:8px; flex-wrap:wrap; padding:10px 0}
+
+    /* ===================== Sections as light cards ===================== */
+    section{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--shadow);margin:42px auto;padding:48px 24px}
+    #home{border:none;box-shadow:none;margin:0;padding-bottom:10px}
+    h2{font-size:clamp(22px,3.2vw,34px);letter-spacing:-.01em;margin:0 0 6px}
+    .note{font-size:13px;color:#6b7280;margin:0 0 10px}
+
+    /* Info grid / program table */
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    @media (max-width:980px){ .info-grid{grid-template-columns:1fr} }
+    .info-item{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid var(--hair)}
+    .program table{width:100%;border-collapse:collapse}
+    .program th,.program td{border:1px solid #eaeef3;padding:10px;text-align:left}
+    .program th{background:#f1f5f9}
+
+    /* Timeline (left rail with dots) */
+    .timeline{padding:18px;background:#f9fafb;border-radius:14px;border:1px solid var(--hair)}
+    .timeline ul{list-style:none;margin:0;padding:0}
+    .timeline li{position:relative;margin:0;padding:14px 0 14px 22px;border:0;color:#111}
+    .timeline li::before{content:"";position:absolute;left:8px;top:24px;bottom:-24px;width:2px;background:#e5e7eb}
+    .timeline li b{display:inline-block;min-width:72px;font-size:18px;color:#111;margin-right:6px}
+    .timeline li::after{content:"";position:absolute;left:4px;top:22px;width:10px;height:10px;border-radius:50%;background:linear-gradient(180deg,var(--brand),var(--brand-2));box-shadow:0 0 0 3px #fff;border:1px solid #e5e7eb}
+
+    /* Gallery as film-strip */
+    .marquee{display:flex;gap:16px;overflow:hidden}
+    .marquee .track{display:flex;gap:16px;animation:scrollX 30s linear infinite}
+    .marquee img{width:320px;height:210px;object-fit:cover;border-radius:12px;border:1px solid #e5e7eb;box-shadow:0 6px 16px rgba(16,24,40,.08)}
+    @keyframes scrollX{from{transform:translateX(0)}to{transform:translateX(-50%)}
+
+    }
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    @media (max-width:980px){ .contact-grid{grid-template-columns:1fr} }
+    form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e5e7eb;background:#fff;color:#111}
+    textarea{min-height:120px}
+
+    /* Footer */
+    footer{padding:24px 0;color:#6b7280;text-align:center;border-top:1px solid var(--hair);background:#fff}
+
+    /* Kakao embed tweaks */
+    .root_daum_roughmap { width:100% !important; max-width:100% !important; }
+    .root_daum_roughmap .section_address .tit, 
+    .root_daum_roughmap .section_address .txt{color:#111 !important}
+  </style>
+</head>
+<body>
+  <!-- HERO (no header) -->
+  <section id="home" class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="badge">40th Anniversary</div>
+        <h1>한남대학교 풍물놀이패 어울소리</h1>
+        <p class="lead">2026년 5월 30일(토) · 한남대학교 무어아트홀</p>
+        <div class="cta">
+          <button class="btn primary" id="openReg">참가신청하기</button>
+          <button class="btn secondary" id="openSponsor">후원하기</button>
+        </div>
+
+        <!-- 섹션 메뉴 버튼(레퍼런스 사이트 느낌의 칩 형태) -->
+        <div class="section-menu" aria-label="섹션 바로가기">
+          <a class="menu-chip" href="#about">행사 안내</a>
+          <a class="menu-chip" href="#history">함께한 기록</a>
+          <a class="menu-chip" href="#contact">문의</a>
+        </div>
+      </div>
+
+      <!-- 우측 요약 패널 -->
+      <aside class="hero-panel">
+        <div class="metric"><span>목표</span><b>10,000,000원</b></div>
+        <div class="fund-card">
+          <div class="bar-bg"><div id="fundBar" class="bar-fill"></div></div>
+          <div class="bar-text">
+            <strong id="fundNow">7,350,000</strong>원 / 
+            <span id="fundGoal">10,000,000</span>원 
+            (<span id="fundPercent">0%</span>)
+          </div>
+        </div>
+        <div class="countdown" aria-live="polite" style="margin-top:10px">
+          <span class="label">D-Day</span>
+          <span id="dday">0</span>일  <span id="hours">00</span> : <span id="mins">00</span> : <span id="secs">00</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Sticky section menu (스크롤 시 상단 고정) -->
+  <div class="sticky-menu" aria-hidden="false">
+    <div class="container">
+      <a class="menu-chip" href="#home">소개</a>
+      <a class="menu-chip" href="#about">행사 안내</a>
+      <a class="menu-chip" href="#history">함께한 기록</a>
+      <a class="menu-chip" href="#contact">문의</a>
+    </div>
+  </div>
+
+  <!-- Info -->
+  <section id="about">
+    <div class="container">
+      <h2>행사 안내</h2>
+      <p class="note">일정 · 장소 · 주최 및 찾아오시는 길</p>
+      <div class="info-grid">
+        <div class="info-item">
+          <ul style="list-style:none;padding:0;margin:0">
+            <li><b>일시</b> : 2026년 5월 30일(토)</li>
+            <li><b>장소</b> : 대학아트홀</li>
+            <li><b>주최</b> : 풍물놀이패 회원일동</li>
+          </ul>
+          <div class="program" style="margin-top:10px">
+            <h3 style="margin:0 0 6px">식순(안)</h3>
+            <table aria-label="행사 식순">
+              <thead><tr><th style="width:120px">시간</th><th>내용</th></tr></thead>
+              <tbody>
+                <tr><td>14:00</td><td>오프닝·집결</td></tr>
+                <tr><td>14:10</td><td>내빈 소개 및 축사</td></tr>
+                <tr><td>14:30</td><td>공연 1부 (진쇠·삼채)</td></tr>
+                <tr><td>15:10</td><td>휴식</td></tr>
+                <tr><td>15:25</td><td>공연 2부 (사물놀이 합주)</td></tr>
+                <tr><td>16:10</td><td>동문 인터뷰 영상 상영</td></tr>
+                <tr><td>16:30</td><td>단체 기념촬영</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Kakao Map -->
+        <div class="info-item">
+          <div id="daumRoughmapContainer1758955056424" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+          <div class="note" style="padding-top:8px">* 마커를 클릭하면 카카오 길찾기가 새 창으로 열립니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section id="history">
+    <div class="container">
+      <h2>함께한 기록</h2>
+      <p class="note">어울소리 40년의 발자취</p>
+      <div class="timeline">
+        <ul>
+          <li><b>1986</b> 창립</li>
+          <li><b>1995</b> 지역 문화축제 첫 대상 수상</li>
+          <li><b>2003</b> 해외 교류 공연 시작</li>
+          <li><b>2010</b> 정기공연 20회 달성</li>
+          <li><b>2016</b> 창립 30주년 기념 굿판</li>
+          <li><b>2020</b> 온라인 비대면 공연 시도</li>
+          <li><b>2026</b> 창립 40주년 기념 한마당</li>
+        </ul>
+      </div>
+
+      <h3 style="margin:24px 0 10px">갤러리</h3>
+      <div class="marquee">
+        <div class="track">
+          <img src="gallery1.jpg" alt="공연 사진 1" />
+          <img src="gallery2.jpg" alt="공연 사진 2" />
+          <img src="gallery3.jpg" alt="공연 사진 3" />
+          <img src="gallery4.jpg" alt="공연 사진 4" />
+          <img src="gallery5.jpg" alt="공연 사진 5" />
+          <img src="gallery1.jpg" alt="공연 사진 1" />
+          <img src="gallery2.jpg" alt="공연 사진 2" />
+          <img src="gallery3.jpg" alt="공연 사진 3" />
+          <img src="gallery4.jpg" alt="공연 사진 4" />
+          <img src="gallery5.jpg" alt="공연 사진 5" />
+        </div>
+      </div>
+      <p class="note" style="margin-top:8px">* 이미지 파일(gallery1~5.jpg)을 교체하세요. 자동 슬라이드(무한 루프)입니다.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <h2>문의하기</h2>
+      <p class="note">담당자 연락처 및 메일 전송</p>
+      <div class="contact-grid">
+        <div class="info-item" style="background:#fff">
+          <h3 style="margin:0 0 6px">담당자</h3>
+          <p style="margin:0 0 10px">
+            이메일: <a id="contactEmail" href="mailto:pungmul40@example.com">pungmul40@example.com</a><br/>
+            연락처: <a href="tel:01012345678">010-1234-5678</a><br/>
+            인스타그램: <a href="https://instagram.com/pungmul_official" target="_blank" rel="noopener">@pungmul_official</a>
+          </p>
+          <p class="note">* 실제 연락처로 교체하세요.</p>
+        </div>
+
+        <div class="info-item" style="background:#fff">
+          <h3 style="margin:0 0 6px">메일 보내기</h3>
+          <form id="mailForm">
+            <div class="row">
+              <div>
+                <label>이름</label>
+                <input type="text" name="name" required />
+              </div>
+              <div>
+                <label>이메일</label>
+                <input type="email" name="email" />
+              </div>
+            </div>
+            <div style="margin-top:10px">
+              <label>내용</label>
+              <textarea name="message" required></textarea>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="btn primary" type="submit">메일 전송</button>
+              <span class="note">* 현재는 메일 앱으로 전송됩니다. (EmailJS 등 연동 가능)</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© 2026 풍물놀이패 동아리 — 40주년 기념행사</div>
+  </footer>
+
+  <!-- 참가신청 모달 -->
+  <div id="regModal" class="modal" role="dialog" aria-modal="true" style="display:none;align-items:center;justify-content:center;padding:20px;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100">
+    <div class="dialog" style="background:#fff;color:#111;border:1px solid var(--hair);border-radius:12px;max-width:720px;width:96%;padding:20px">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+        <h3 style="margin:0">참가신청</h3>
+        <button class="btn ghost" id="closeReg" aria-label="닫기">닫기</button>
+      </header>
+      <div class="body">
+        <form id="regForm">
+          <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <label>이름</label>
+              <input type="text" name="name" required />
+            </div>
+            <div>
+              <label>연락처</label>
+              <input type="tel" name="phone" placeholder="010-0000-0000" required />
+            </div>
+          </div>
+          <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+            <div>
+              <label>이메일(선택)</label>
+              <input type="email" name="email" />
+            </div>
+            <div>
+              <label>인원수</label>
+              <input type="number" name="count" min="1" value="1" required />
+            </div>
+          </div>
+          <div style="margin-top:10px">
+            <label>한마디(선택)</label>
+            <textarea name="msg" placeholder="동아리에게 전하고 싶은 말"></textarea>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button class="btn primary" type="submit" id="regSubmit">신청 완료</button>
+            <button class="btn ghost" type="button" id="testPing" title="시트 연결 테스트">연결 테스트</button>
+            <span class="note">* 신청 정보는 구글 시트에만 저장됩니다.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 후원 계좌 모달 + QR -->
+  <div id="sponsorModal" class="modal" role="dialog" aria-modal="true" style="display:none;align-items:center;justify-content:center;padding:20px;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100">
+    <div class="dialog" style="background:#fff;color:#111;border:1px solid var(--hair);border-radius:12px;max-width:720px;width:96%;padding:20px">
+      <header style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+        <h3 style="margin:0">후원 계좌 안내</h3>
+        <button class="btn ghost" id="closeSponsor" aria-label="닫기">닫기</button>
+      </header>
+      <div class="body">
+        <div style="display:grid;gap:8px">
+          <p>후원 1구좌: <b>50,000원</b> · 참가비: <b>50,000원</b></p>
+          <div class="account" id="accountNumber" style="font-size:1.2em;font-weight:900;color:#0ea5e9;margin:8px 0">123456-78-901234</div>
+          <div class="bank" id="bankInfo" style="font-weight:800;color:#ff2d55">국민은행 · 예금주: 풍물놀이패</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn secondary" id="copyAccount">계좌번호 복사</button>
+            <button class="btn secondary" id="copyAll">전체 정보 복사</button>
+          </div>
+          <div class="qr-wrap" style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-top:12px">
+            <div class="qr-box" style="background:#fff;padding:12px;border-radius:12px;display:inline-block;border:1px solid var(--hair)">
+              <img id="qrImage" alt="QR 코드" width="220" height="220" />
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn primary" id="downloadQR">QR 이미지 다운로드</button>
+              <span class="note">* 은행 앱에서 QR 스캔 → ‘메모/이체’에 활용하세요.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    /* ===================== 사용자 설정 ===================== */
+    const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzAkTilyUWeapEOT6yO3Swe1qmZDyI8yRwpcW-mcZdmN9ODJChbPxSlSxvUIiNyuy4V/exec';
+
+    const $ = (s, root=document) => root.querySelector(s);
+
+    /* D-DAY */
+    (function(){
+      let eventMs = Date.parse('2026-05-30T00:00:00+09:00');
+      if (isNaN(eventMs)) eventMs = Date.parse('2026-05-29T15:00:00Z');
+      const dEl = $('#dday'), hEl = $('#hours'), mEl = $('#mins'), sEl = $('#secs');
+      if(!dEl || !hEl || !mEl || !sEl) return;
+      function tick(){
+        const now = Date.now();
+        let diff = Math.max(0, eventMs - now);
+        const d = Math.floor(diff / 86400000); diff -= d*86400000;
+        const h = Math.floor(diff / 3600000); diff -= h*3600000;
+        const m = Math.floor(diff / 60000); diff -= m*60000;
+        const s = Math.floor(diff / 1000);
+        dEl.textContent = d;
+        hEl.textContent = String(h).padStart(2,'0');
+        mEl.textContent = String(m).padStart(2,'0');
+        sEl.textContent = String(s).padStart(2,'0');
+      }
+      tick(); setInterval(tick, 1000);
+    })();
+
+    /* 모달 */
+    const regModal = $('#regModal');
+    const sponsorModal = $('#sponsorModal');
+    document.getElementById('openReg').addEventListener('click', ()=> regModal.style.display='flex');
+    document.getElementById('closeReg').addEventListener('click', ()=> regModal.style.display='none');
+    regModal.addEventListener('click', (e)=>{ if(e.target.id==='regModal') regModal.style.display='none'; });
+
+    document.getElementById('openSponsor').addEventListener('click', ()=> sponsorModal.style.display='flex');
+    document.getElementById('closeSponsor').addEventListener('click', ()=> sponsorModal.style.display='none');
+    sponsorModal.addEventListener('click', (e)=>{ if(e.target.id==='sponsorModal') sponsorModal.style.display='none'; });
+
+    /* 후원 QR/복사 */
+    const acctEl = document.getElementById('accountNumber');
+    const bankEl = document.getElementById('bankInfo');
+    const qrImg = document.getElementById('qrImage');
+    function refreshQR(){
+      const payload = acctEl.textContent.trim() + ' | ' + bankEl.textContent.trim();
+      const url = 'https://chart.googleapis.com/chart?chs=220x220&cht=qr&chl=' + encodeURIComponent(payload);
+      qrImg.src = url; qrImg.alt = 'QR: ' + payload;
+    }
+    refreshQR();
+    document.getElementById('copyAccount').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(acctEl.textContent.trim()); alert('계좌번호가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
+    });
+    document.getElementById('copyAll').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(acctEl.textContent.trim() + ' / ' + bankEl.textContent.trim()); alert('전체 정보가 복사되었습니다.'); }catch(_){ alert('복사에 실패했습니다.'); }
+    });
+    document.getElementById('downloadQR').addEventListener('click', ()=>{
+      const a = document.createElement('a'); a.href = qrImg.src; a.download = 'pungmul_sponsor_qr.png'; a.click();
+    });
+
+    /* 신청 폼 (GAS) */
+    document.getElementById('regForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const submitBtn = document.getElementById('regSubmit');
+      const fd = new FormData(e.target);
+      const body = new URLSearchParams({
+        name:  String(fd.get('name') || '').trim(),
+        phone: String(fd.get('phone')|| '').trim(),
+        email: String(fd.get('email')|| '').trim(),
+        count: String(Math.max(1, Number(fd.get('count'))||1)),
+        msg:   String(fd.get('msg')  || '').trim(),
+        ts:    new Date().toISOString()
+      });
+      if(!SHEET_ENDPOINT){ alert('관리자 설정 필요: SHEET_ENDPOINT 비어있음'); return; }
+      try {
+        submitBtn.disabled = true; submitBtn.textContent = '전송 중...';
+        const res = await fetch(SHEET_ENDPOINT, { method: 'POST', body });
+        try { console.log('[GAS] response:', await res.clone().text()); } catch(_) {}
+        alert('신청이 접수되었습니다. 감사합니다!');
+        e.target.reset(); regModal.style.display='none';
+      } catch (err) {
+        console.error(err);
+        alert('구글 시트 저장 실패(네트워크/권한/CORS 설정 확인)');
+      } finally {
+        submitBtn.disabled = false; submitBtn.textContent = '신청 완료';
+      }
+    });
+
+    /* 메일앱 전송 */
+    document.getElementById('mailForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const to = document.getElementById('contactEmail').textContent.trim();
+      const subject = encodeURIComponent('[문의] ' + (fd.get('name')||'') + '님');
+      const body = encodeURIComponent(
+        '이름: ' + (fd.get('name')||'') + '\n' +
+        '이메일: ' + (fd.get('email')||'') + '\n\n' +
+        '내용:\n' + (fd.get('message')||'')
+      );
+      location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
+    });
+
+    /* 후원 현황(보기 전용) */
+    (function(){
+      const nowEl = document.getElementById('fundNow');
+      const goalEl= document.getElementById('fundGoal');
+      const bar   = document.getElementById('fundBar');
+      const pctEl = document.getElementById('fundPercent');
+      if(!nowEl || !goalEl || !bar || !pctEl) return;
+      const now  = Number(nowEl.textContent.replace(/[^\d]/g,''));
+      const goal = Number(goalEl.textContent.replace(/[^\d]/g,''));
+      const ratio = Math.min(1, now / goal);
+      const percent = (ratio * 100).toFixed(1);
+      pctEl.textContent = percent + '%';
+      bar.style.width = percent + '%';
+    })();
+  </script>
+
+  <!-- Kakao RoughMap Loader -->
+  <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+  <!-- Kakao RoughMap Instance -->
+  <script charset="UTF-8">
+  	new daum.roughmap.Lander({
+  		"timestamp" : "1758955056424",
+  		"key" : "9ttv8jh4qs4",
+  		"mapWidth" : "100%",
+  		"mapHeight" : "360"
+  	}).render();
+  </script>
+</body>
+</html>
