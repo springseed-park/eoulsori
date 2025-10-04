@@ -113,7 +113,24 @@
     max-width: 100% !important;
     }
     .root_daum_roughmap .section_address .tit, .root_daum_roughmap .section_address .txt{color:#fff!important}
-    
+    /* === 후원 현황 (보기 전용, 가로 막대형) === */
+    .fund-card{
+      margin-top:14px; padding:16px; background:rgba(20,21,42,.7);
+      border:1px solid rgba(255,255,255,.08); border-radius:14px;
+      box-shadow:var(--shadow); width:min(680px,100%);
+    }
+    .bar-wrap{margin:10px 0 14px}
+    .bar-bg{
+      width:100%; height:22px; background:rgba(255,255,255,.1);
+      border-radius:12px; overflow:hidden;
+    }
+    .bar-fill{
+      height:100%; background:linear-gradient(90deg,var(--brand),var(--brand-2));
+      width:0%; transition:width 1s ease;
+    }
+    .bar-text{
+      margin-top:6px; font-size:15px; text-align:right; color:var(--muted);
+    }
     /* === 루트 전체 배경 슬라이드 === */
     #bg-rotator{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
     #bg-rotator .slide{
@@ -171,6 +188,22 @@
         <div class="cta">
           <button class="btn primary" id="openReg">참가신청하기</button>
           <button class="btn secondary" id="openSponsor">후원하기</button>
+        </div>
+        <!-- 후원 현황 -->
+        <div id="fundCard" class="fund-card">
+          <h3>후원 현황</h3>
+          <p class="note">목표 10,000,000원</p>
+        
+          <div class="bar-wrap">
+            <div class="bar-bg">
+              <div id="fundBar" class="bar-fill"></div>
+            </div>
+            <div class="bar-text">
+              <strong id="fundNow">7,350,000</strong>원 / 
+              <span id="fundGoal">10,000,000</span>원 
+              (<span id="fundPercent">0%</span>)
+            </div>
+          </div>
         </div>
 
         <!-- D-Day -->
@@ -575,5 +608,25 @@ const BG_FADE_MS     = 1200;   // 페이드(=CSS transition과 동일)
         		"mapHeight" : "360"
         	}).render();
         </script>
+  <script>
+/* ===== 후원 현황(보기 전용) ===== */
+(function(){
+  const $ = (s,r=document)=>r.querySelector(s);
+  const nowEl = $('#fundNow');
+  const goalEl= $('#fundGoal');
+  const bar   = $('#fundBar');
+  const pctEl = $('#fundPercent');
+  if(!nowEl || !goalEl || !bar) return;
+
+  // 쉼표/공백 제거 후 숫자 변환
+  const now  = Number(nowEl.textContent.replace(/[^\d]/g,''));
+  const goal = Number(goalEl.textContent.replace(/[^\d]/g,''));
+  const ratio = Math.min(1, now / goal);
+  const percent = (ratio * 100).toFixed(1);
+
+  pctEl.textContent = percent + '%';
+  bar.style.width = percent + '%';
+})();
+</script>
 </body>
 </html>
